@@ -1,0 +1,109 @@
+youtube-upload (0.7.4) stable; urgency=low
+
+  * issue131: New options --nocomments, --noratings, --recorded
+  * issue136: Issue with split_video_for_youtube.sh
+  * add keywords to option update-metadata
+
+ --  <pyarnau@gmail.com>  Mon, 06 May 2013 14:20:04 +0200
+
+youtube-upload (0.7.3) stable; urgency=low
+
+  * issue101: don't fail when no description is provided 
+  * issue107: add options --hide-progressbar
+
+ --  <pyarnau@gmail.com>  Mon, 06 May 2013 14:20:04 +0200
+
+youtube-upload (0.7.2) stable; urgency=low
+
+  * Change --email option help message.
+  * Allow escaped chars in description
+  * Add -update-metadata (basic support: title/description)
+
+ --  <pyarnau@gmail.com>  Wed, 31 May 2012 18:58:44 +0200
+
+youtube-upload (0.7.1) stable; urgency=low
+
+  * Format checks on video URL and playlists.
+  * Add option --unlisted (issue60).
+  * Fix progressbar on finish.
+
+ --  <pyarnau@gmail.com>  Wed, 1 May 2012 18:58:44 +0200
+
+youtube-upload (0.7) stable; urgency=low
+
+  * Prompt password when not specified in command line.
+  * Meaningful error codes. 
+  * Update to progressbar v2.3.
+
+ --  <pyarnau@gmail.com>  Thu, 11 Aug 2011 09:54:47 +0200
+
+youtube-upload (0.6.2) unstable; urgency=low
+
+  * Add option to create playlist
+  * Add pycurl + progression bar
+
+ --  <pyarnau@gmail.com>  Sat, 23 Apr 2011 20:06:34 +0200
+
+youtube-upload (0.6.1) unstable; urgency=low
+
+  * fix issue with required options
+
+ --  <pyarnau@gmail.com>  Fri, 25 Mar 2011 21:01:29 +0100
+
+youtube-upload (0.6) unstable; urgency=low
+
+  * Remove ffmpeg spliting from Python script (orthogonal task)
+  * Move all arguments to options except video paths.
+  * Bash script to split videos: split_video_for_youtube.sh
+
+ --  <pyarnau@gmail.com>  Thu, 10 Mar 2011 18:50:45 +0100
+
+youtube-upload (0.5) unstable; urgency=low
+
+  * Update to new Youtube limits (15mins, 2Gb) 
+  * Add curl options to bash script
+  * Fix encoding for debug (issue10)
+  * Fix location bug (issue11)
+  * Fix keywords splitting (issue13)
+  * Add --wait-processed option (issue19)
+
+ --  <pyarnau@gmail.com>  Wed, 29 Sep 2010 11:31:18 +0200
+
+youtube-upload (0.4) unstable; urgency=low
+
+  * issue7: fix for gdata 2.0.10
+  * issue9: password can be passed through <stdin>
+  * Add --location option
+  * Add --private option
+  * Add --playlist-uri option
+  * Add Bash example: Upload a video using curl
+
+ --  <pyarnau@gmail.com>  Tue, 29 Jun 2010 19:45:40 +0200
+
+youtube-upload (0.3) unstable; urgency=low
+
+  * Keep quality of original video on slipt.
+
+ --  <pyarnau@gmail.com>  Sat, 17 Apr 2010 16:01:58 +0200
+
+youtube-upload (0.2) unstable; urgency=low
+
+  * Refactor video split
+  * Create split file only when necessary
+  * Add setup.py
+
+ --  <pyarnau@gmail.com>  Tue, 16 Mar 2010 22:56:21 +0100
+
+youtube-upload (0.1) unstable; urgency=high
+
+  * Detect deprecated categories.
+  * Validate meta-data before uploading the video.
+  * Split files in chunks (youtube limits to 10') using ffmpeg.
+
+ --  <pyarnau@gmail.com>  Tue, 08 Dec 2009 19:49:02 +0100
+
+youtube-upload (0.0.1) unstable; urgency=high
+ 
+  * First release.
+
+ -- Arnau Sanchez <pyarnau@gmail.com>  Sat, 24 Jan 2009 12:17:21 +0200
