@@ -38,6 +38,17 @@ $ youtube-upload --title="A.S. Mutter" --description="A.S. Mutter plays Beethove
 pxzZ-fYjeYs
 ```
 
+* Upload a video with your own ```client_secrets.json```:
+
+The package includes a default file but if you plan to use a heavy usage of the script, please [create and use your own authentication file](https://developers.google.com/youtube/v3/getting-started). 
+
+```
+$ youtube-upload --title="A.S. Mutter" --description="A.S. Mutter plays Beethoven" \
+                 --category=Music --keywords="mutter, beethoven" 
+                 --client-secrets=my_client_secrets.json anne_sophie_mutter.flv
+pxzZ-fYjeYs
+```
+
 * Split a video with _ffmpeg_
 
 Youtube currently limits videos to <2Gb and <15' for almost all users. You can use the Bash example script to split it before uploading:
@@ -59,17 +70,11 @@ $ export https_proxy=http://user:password@host:port
 $ youtube-upload ....
 ```
 
-License
-=======
+More
+====
 
-GNU/GPL v3
+* License: GNU/GPL v3 
 
-Donations
-=========
+* [Open an issue](https://github.com/tokland/youtube-upload/issues)
 
-[PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
-
-Feedback
-========
-
-[Open an issue](https://github.com/tokland/youtube-upload/issues)
+*[Donate to the develper with PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
