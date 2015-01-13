@@ -1,11 +1,10 @@
 #!/usr/bin/python
 """Upload videos to Youtube."""
-from youtube_upload import VERSION
 from distutils.core import setup
 
 setup_kwargs = {
     "name": "youtube-upload",
-    "version": VERSION,
+    "version": "0.8.0",
     "description": "Upload videos to Youtube",
     "author": "Arnau Sanchez",
     "author_email": "tokland@gmail.com",
