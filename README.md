@@ -8,8 +8,8 @@ If a video does not comply with Youtube size limitations you must split it befor
 Dependencies
 ============
 
-  * [http://www.python.org python 2.6 or 2.7]
-  * [https://code.google.com/p/google-api-python-client/ python2-google-api-python-client] (>= 1.3.1)
+  * [Python 2.6 or 2.7](http://www.python.org)
+  * [Python Google API](https://github.com/google/google-api-python-client)
 
 Download & Install
 
@@ -59,7 +59,17 @@ $ export https_proxy=http://user:password@host:port
 $ youtube-upload ....
 ```
 
+License
+=======
+
+GNU/GPL v3
+
+Donations
+=========
+
+[PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
+
 Feedback
 ========
 
-https://github.com/tokland/youtube-upload/issues
+[Open an issue](https://github.com/tokland/youtube-upload/issues)
