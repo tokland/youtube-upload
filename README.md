@@ -34,7 +34,7 @@ Usage examples
 
 ```
 $ youtube-upload --title="A.S. Mutter" --description="A.S. Mutter plays Beethoven" \
-                 --category=Music --keywords="mutter, beethoven" anne_sophie_mutter.flv
+                 --category=Music --tags="mutter, beethoven" anne_sophie_mutter.flv
 pxzZ-fYjeYs
 ```
 
@@ -42,7 +42,7 @@ pxzZ-fYjeYs
 
 ```
 $ youtube-upload --title="A.S. Mutter" --description="A.S. Mutter plays Beethoven" \
-                 --category=Music --keywords="mutter, beethoven" 
+                 --category=Music --tags="mutter, beethoven" 
                  --client-secrets=my_client_secrets.json anne_sophie_mutter.flv
 pxzZ-fYjeYs
 ```

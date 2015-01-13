@@ -1,18 +1,5 @@
 #!/usr/bin/python2
 #
-# Youtube-upload is free software: you can redistribute it and/or modify
-# it under the terms of the GNU General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-#
-# Youtube-upload is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with Youtube-upload. If not, see <http://www.gnu.org/licenses/>.
-#
 # Author: Arnau Sanchez <pyarnau@gmail.com>
 # Site: https://github.com/tokland/youtube-upload
 """
@@ -21,7 +8,7 @@ Upload a video to Youtube from the command-line.
     $ youtube-upload --title="A.S. Mutter playing" \
                      --description="Anne Sophie Mutter plays Beethoven" \
                      --category=Music \
-                     --keywords="mutter, beethoven" \
+                     --tags="mutter, beethoven" \
                      anne_sophie_mutter.flv
     www.youtube.com/watch?v=pxzZ-fYjeYs
 """
@@ -43,30 +30,16 @@ except ImportError:
     progressbar = None
 
 class InvalidCategory(Exception): pass
-class VideoArgumentMissing(Exception): pass
 class OptionsMissing(Exception): pass
-class BadAuthentication(Exception): pass
-class ParseError(Exception): pass
-class VideoNotFound(Exception): pass
-class UnsuccessfulHTTPResponseCode(Exception): pass
 
 VERSION = "0.8.0"
 
 EXIT_CODES = {
-    # Non-retryable
-    BadAuthentication: 1,
-    VideoArgumentMissing: 2,
     OptionsMissing: 2,
     InvalidCategory: 3,
-    ParseError: 5,
-    VideoNotFound: 6,
-    # Retryable
-    UnsuccessfulHTTPResponseCode: 100,
 }
 
 WATCH_VIDEO_URL = "https://www.youtube.com/watch?v={id}"
-
-ProgressInfo = collections.namedtuple("ProgressInfo", ["callback", "finish"])
 
 def to_utf8(s):
     """Re-encode string from the default system encoding to UTF-8."""
@@ -114,20 +87,33 @@ def get_progress_info():
             bar.maxval = total_size
             bar.start()
         bar.update(completed)
+    build = collections.namedtuple("ProgressInfo", ["callback", "finish"])
 
-    widgets = [
-        progressbar.Percentage(), ' ',
-        progressbar.Bar(), ' ',
-        progressbar.ETA(), ' ',
-        progressbar.FileTransferSpeed(),
-    ]
-    bar = progressbar.ProgressBar(widgets=widgets)
-    return ProgressInfo(callback=_callback, finish=bar.finish)
+    if progressbar:
+        widgets = [
+            progressbar.Percentage(), ' ',
+            progressbar.Bar(), ' ',
+            progressbar.ETA(), ' ',
+            progressbar.FileTransferSpeed(),
+        ]
+        bar = progressbar.ProgressBar(widgets=widgets)
+        return build(callback=_callback, finish=bar.finish)
+    else:
+        return build(callback=lambda *args: True, finish=lambda: True)
 
 def string_to_dict(string):
     """Return dictionary from string "key1=value1, key2=value2"."""
     pairs = [s.strip() for s in (string or "").split(",")]
     return dict(pair.split("=") for pair in pairs)
+
+def get_category_id(category):
+    """Return category ID from its name."""
+    if category:
+        if category in youtube_upload.categories.IDS:
+            return str(youtube_upload.categories.IDS[category])
+        else:
+            msg = "{} is not a valid category".format(category)
+            raise InvalidCategory(msg)
 
 def upload_video(youtube, options, video_path, total_videos, index):
     """Upload video with index (for split videos)."""
@@ -137,20 +123,12 @@ def upload_video(youtube, options, video_path, total_videos, index):
     complete_title = \
         (options.title_template.format(**ns) if total_videos > 1 else title)
     progress = get_progress_info()
-    if options.category:
-        ids = youtube_upload.categories.IDS
-        if options.category in ids:
-            category_id = str(ids[options.category])
-        else:
-            msg = "{} is not a valid category".format(options.category)
-            raise InvalidCategory(msg)
-    else:
-        category_id = None
+    category_id = get_category_id(options.category)
 
     body = {
         "snippet": {
             "title": complete_title,
-            "tags": map(str.strip, (options.keywords or "").split(",")),
+            "tags": map(str.strip, (options.tags or "").split(",")),
             "description": description,
             "categoryId": category_id,
         },
@@ -180,7 +158,7 @@ def run_main(parser, options, args, output=sys.stdout):
     default_client_secrets = \
         os.path.join(sys.prefix, "share/youtube_upload/client_secrets.json")
     home = os.path.expanduser("~")
-    default_credentials = os.path.join(home, ".youtube_upload-credentials.json")
+    default_credentials = os.path.join(home, ".youtube-upload-credentials.json")
     client_secrets = options.client_secrets or default_client_secrets
     credentials = options.credentials_file or default_credentials
     debug("Using client secrets: {}".format(client_secrets))
@@ -190,11 +168,11 @@ def run_main(parser, options, args, output=sys.stdout):
     for index, video_path in enumerate(args):
         video_id = upload_video(youtube, options, video_path, len(args), index)
         video_url = WATCH_VIDEO_URL.format(id=video_id)
-        debug("Watch URL: {}".format(video_url))
+        debug("Video URL: {}".format(video_url))
         output.write(video_id + "\n")
 
 def main(arguments):
-    """Upload video to Youtube."""
+    """Upload videos to Youtube."""
     usage = """Usage: %prog [OPTIONS] VIDEO_PATH [VIDEO_PATH2 ...]
 
     Upload videos to youtube."""
@@ -209,8 +187,8 @@ def main(arguments):
     # Optional options
     parser.add_option('-d', '--description', dest='description', type="string",
         help='Video(s) description')
-    parser.add_option('', '--keywords', dest='keywords', type="string",
-        help='Video(s) keywords (separated by commas: tag1,tag2,...)')
+    parser.add_option('', '--tags', dest='tags', type="string",
+        help='Video(s) tags (separated by commas: tag1,tag2,...)')
     parser.add_option('', '--title-template', dest='title_template',
         type="string", default="{title} [{n}/{total}]", metavar="STRING",
         help='Template for multiple videos (default: {title} [{n}/{total}])')
