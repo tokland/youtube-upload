@@ -3,7 +3,7 @@ Introduction
 
 _Youtube-upload_ is a command-line script that uploads videos to Youtube. 
 
-If a video does not comply with Youtube size limitations you must split it before using ffmpeg/avconv or any other tool. _Youtube-upload_ should work on any platform (GNU/Linux, BSD, OS X, Windows, ...) that runs Python.
+_Youtube-upload_ should work on any platform (GNU/Linux, BSD, OS X, Windows, ...) that runs Python.
 
 Dependencies
 ============
@@ -23,7 +23,7 @@ $ sudo python setup.py install
   * If you don't want (or you can't) install software on the computer, run it directly from sources:
 
 ```
-$ cd youtube-upload-VERSION
+$ cd youtube-upload-master
 $ PYTHONPATH=. python youtube_upload/youtube_upload.py ...
 ```
 
@@ -39,8 +39,6 @@ pxzZ-fYjeYs
 ```
 
 * Upload a video with your own ```client_secrets.json```:
-
-The package includes a default file but if you plan to use a heavy usage of the script, please [create and use your own authentication file](https://developers.google.com/youtube/v3/getting-started). 
 
 ```
 $ youtube-upload --title="A.S. Mutter" --description="A.S. Mutter plays Beethoven" \
@@ -70,11 +68,18 @@ $ export https_proxy=http://user:password@host:port
 $ youtube-upload ....
 ```
 
+Caveats
+=======
+
+* The package includes a default file but if you plan to use a heavy usage of the script, please [create and use your own authentication file](https://developers.google.com/youtube/v3/getting-started).
+
+* If a video does not comply with Youtube size limitations you must split it before using ffmpeg/avconv or any other tool. 
+
 More
 ====
 
 * License: [GNU/GPL v3](http://www.gnu.org/licenses/gpl.html). 
 
-* [Open an issue](https://github.com/tokland/youtube-upload/issues)
+* [Open a issue](https://github.com/tokland/youtube-upload/issues).
 
-* [Donate to the develper with PayPal](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
+* [Support the developer with a donation](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest).
