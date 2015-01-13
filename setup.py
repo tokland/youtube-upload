@@ -11,6 +11,7 @@ setup_kwargs = {
     "author_email": "tokland@gmail.com",
     "url": "http://code.google.com/p/youtube-upload/",
     "packages": ["youtube_upload/"],
+    "data_files": [("share/youtube_upload", ['client_secrets.json'])],
     "scripts": ["bin/youtube-upload"],
     "license": "GNU Public License v3.0",
     "long_description": " ".join(__doc__.strip().splitlines()),

@@ -1,1 +1,1 @@
-from youtube_upload import *  
+VERSION = "0.8.0"
