@@ -1,3 +1,7 @@
+youtube-upload (0.8.0) stable; urgency=low
+
+  * Update to APIv3 and Oauth2.
+
 youtube-upload (0.7.4) stable; urgency=low
 
   * issue131: New options --nocomments, --noratings, --recorded

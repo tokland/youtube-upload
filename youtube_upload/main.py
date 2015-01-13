@@ -29,7 +29,6 @@ Upload a video to Youtube from the command-line.
 
 import os
 import sys
-import string
 import locale
 import optparse
 import collections
@@ -83,8 +82,8 @@ def debug(obj, fd=sys.stderr):
 
 def catch_exceptions(exit_codes, fun, *args, **kwargs):
     """
-    Catch exceptions on 'fun(*args, **kwargs)' and return the exit code specified 
-    in the 'exit_codes' dictionary. Returns 0 if no exception is raised.
+    Catch exceptions on fun(*args, **kwargs) and return the exit code specified
+    in the exit_codes dictionary. Return 0 if no exception is raised.
     """
     try:
         fun(*args, **kwargs)
@@ -102,8 +101,8 @@ def compact(it):
     return filter(bool, it)
 
 def tosize(seq, size):
-    """Return a list of fixed length from sequence (which may be shorter or longer)."""
-    return (seq[:size] if len(seq) >= size else (seq + [None] * (size-len(seq))))
+    """Return list of fixed length from sequence."""
+    return seq[:size] if len(seq) >= size else (seq + [None] * (size-len(seq)))
 
 def first(it):
     """Return first element in iterable."""
@@ -135,16 +134,17 @@ def upload_video(youtube, options, video_path, total_videos, index):
     """Upload video with index (for split videos)."""
     title = to_utf8(options.title)
     description = to_utf8(options.description or "").decode("string-escape")
-    namespace = dict(title=title, n=index+1, total=total_videos)
-    complete_title = (string.Template(options.title_template).substitute(**namespace)
-      if total_videos > 1 else title)
+    ns = dict(title=title, n=index+1, total=total_videos)
+    complete_title = \
+        (options.title_template.format(**ns) if total_videos > 1 else title)
     progress = get_progress_info()
     if options.category:
         ids = youtube_upload.categories.IDS
         if options.category in ids:
             category_id = str(ids[options.category])
         else:
-            raise InvalidCategory("{} is not a valid category".format(options.category))
+            msg = "{} is not a valid category".format(options.category)
+            raise InvalidCategory(msg)
     else:
         category_id = None
 
@@ -163,7 +163,7 @@ def upload_video(youtube, options, video_path, total_videos, index):
         },
     }
 
-    video_id = youtube_upload.upload_video.upload(youtube, video_path, body,  
+    video_id = youtube_upload.upload_video.upload(youtube, video_path, body,
         progress_callback=progress.callback, chunksize=16*1024)
     progress.finish()
     return video_id
@@ -174,10 +174,11 @@ def run_main(parser, options, args, output=sys.stdout):
     missing = [opt for opt in required_options if not getattr(options, opt)]
     if missing:
         parser.print_usage()
-        raise OptionsMissing("Some required option are missing: %s" % ", ".join(missing))
+        msg = "Some required option are missing: %s" % ", ".join(missing)
+        raise OptionsMissing(msg)
 
     default_client_secrets = \
-        os.path.join(sys.prefix, "share", "youtube_upload", "client_secrets.json")
+        os.path.join(sys.prefix, "share/youtube_upload/client_secrets.json")
     home = os.path.expanduser("~")
     default_credentials = os.path.join(home, ".youtube_upload-credentials.json")
     client_secrets = options.client_secrets or default_client_secrets
@@ -185,7 +186,7 @@ def run_main(parser, options, args, output=sys.stdout):
     debug("Using client secrets: {}".format(client_secrets))
     debug("Using credentials file: {}".format(credentials))
     youtube = youtube_upload.auth.get_resource(client_secrets, credentials)
-    
+
     for index, video_path in enumerate(args):
         video_id = upload_video(youtube, options, video_path, len(args), index)
         video_url = WATCH_VIDEO_URL.format(id=video_id)
@@ -210,19 +211,20 @@ def main(arguments):
         help='Video(s) description')
     parser.add_option('', '--keywords', dest='keywords', type="string",
         help='Video(s) keywords (separated by commas: tag1,tag2,...)')
-    parser.add_option('', '--title-template', dest='title_template', type="string",
-        default="$title [$n/$total]", metavar="STRING",
-        help='Title template to use on multiple videos (default: $title [$n/$total])')
+    parser.add_option('', '--title-template', dest='title_template',
+        type="string", default="$title [$n/$total]", metavar="STRING",
+        help='Template for multiple videos (default: {title} [{n}/{total}])')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
-        default="public", help='Set privacy status (public | unlisted | private)')
-    parser.add_option('', '--location', dest='location', type="string", default=None,
-        metavar="LAT,LON", help='Video(s) location (latitude=VALUE, longitude=VALUE, altitude=VALUE)."')
-        
+        default="public", help='Privacy status (public | unlisted | private)')
+    parser.add_option('', '--location', dest='location', type="string",
+        default=None, metavar="LAT,LON",
+        help='Video(s) location (latitude=VAL, longitude=VAL, altitude=VAL)."')
+
     # Authentication
-    parser.add_option('', '--client-secrets', dest='client_secrets', type="string",
-        help='Client secrets JSON file')
-    parser.add_option('', '--credentials-file', dest='credentials_file', type="string",
-        help='Client secrets JSON file')
+    parser.add_option('', '--client-secrets', dest='client_secrets',
+        type="string", help='Client secrets JSON file')
+    parser.add_option('', '--credentials-file', dest='credentials_file',
+        type="string", help='Client secrets JSON file')
 
     options, args = parser.parse_args(arguments)
     run_main(parser, options, args)
