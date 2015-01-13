@@ -13,9 +13,8 @@
 # You should have received a copy of the GNU General Public License
 # along with Youtube-upload. If not, see <http://www.gnu.org/licenses/>.
 #
-# Author: Arnau Sanchez <tokland@gmail.com>
-# Websites: http://code.google.com/p/youtube-upload
-#           http://code.google.com/p/tokland
+# Author: Arnau Sanchez <pyarnau@gmail.com>
+# Site: https://github.com/tokland/youtube-upload
 """
 Upload a video to Youtube from the command-line.
 
@@ -163,6 +162,7 @@ def upload_video(youtube, options, video_path, total_videos, index):
         },
     }
 
+    debug("Start upload: {} ({})".format(video_path, complete_title))
     video_id = youtube_upload.upload_video.upload(youtube, video_path, body,
         progress_callback=progress.callback, chunksize=16*1024)
     progress.finish()
@@ -195,7 +195,7 @@ def run_main(parser, options, args, output=sys.stdout):
 
 def main(arguments):
     """Upload video to Youtube."""
-    usage = """Usage: %prog [OPTIONS] VIDEO_PATH ...
+    usage = """Usage: %prog [OPTIONS] VIDEO_PATH [VIDEO_PATH2 ...]
 
     Upload videos to youtube."""
     parser = optparse.OptionParser(usage, version=VERSION)
@@ -212,13 +212,13 @@ def main(arguments):
     parser.add_option('', '--keywords', dest='keywords', type="string",
         help='Video(s) keywords (separated by commas: tag1,tag2,...)')
     parser.add_option('', '--title-template', dest='title_template',
-        type="string", default="$title [$n/$total]", metavar="STRING",
+        type="string", default="{title} [{n}/{total}]", metavar="STRING",
         help='Template for multiple videos (default: {title} [{n}/{total}])')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
         default="public", help='Privacy status (public | unlisted | private)')
     parser.add_option('', '--location', dest='location', type="string",
-        default=None, metavar="LAT,LON",
-        help='Video(s) location (latitude=VAL, longitude=VAL, altitude=VAL)."')
+        default=None, metavar="latitude=VAL, longitude=VAL, altitude=VAL",
+        help='Video(s) location"')
 
     # Authentication
     parser.add_option('', '--client-secrets', dest='client_secrets',
