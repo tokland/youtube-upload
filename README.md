@@ -29,7 +29,7 @@ $ PYTHONPATH=. python youtube_upload/youtube_upload.py ...
 Examples
 ========
 
-* Upload a video:
+* Upload a video
 
 ```
 $ youtube-upload --title="A.S. Mutter" --description="A.S. Mutter plays Beethoven" \
@@ -56,7 +56,6 @@ video.part1.avi
 video.part2.avi
 video.part3.avi
 ```
-
 * Use a HTTP proxy
 
 Set environment variables *http_proxy* and *https_proxy*:
@@ -70,7 +69,7 @@ $ youtube-upload ....
 Caveats
 =======
 
-* The package includes a default ```client_secrets.json``` file, but if you plan to make a heavy use of the script, please [create and use your own authentication file](https://developers.google.com/youtube/v3/getting-started).
+* The package includes a default ```client_secrets.json``` file, but if you plan to make a heavy use of the script, please [create and use your own OAuth 2.0 file](https://developers.google.com/youtube/registering_an_application).
 
 * If a video does not comply with Youtube size limitations you must split it (using ffmpeg/avconvm, for example). 
 
