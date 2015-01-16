@@ -78,6 +78,8 @@ More
 
 * License: [GNU/GPLv3](http://www.gnu.org/licenses/gpl.html). 
 
-* Feedback: [Open a issue](https://github.com/tokland/youtube-upload/issues).
+* Bugs: [Open a issue](https://github.com/tokland/youtube-upload/issues).
+
+* Feature requests: The project as it is fulfills my needs. I'll gladly fix any bug, but if you'd like to see some functionality added, you'll have to send a pull request.
 
 * [Donate](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&item_name=youtube%2dupload&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest).
