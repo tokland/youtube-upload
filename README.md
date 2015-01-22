@@ -69,9 +69,9 @@ $ youtube-upload ....
 Caveats
 =======
 
-* The package includes a default ```client_secrets.json``` file, but if you plan to make a heavy use of the script, please [create and use your own OAuth 2.0 file](https://developers.google.com/youtube/registering_an_application).
+* The package includes a default ```client_secrets.json``` file. If you plan to make a heavy use of the script, please [create and use your own OAuth 2.0 file](https://developers.google.com/youtube/registering_an_application).
 
-* If a video does not comply with Youtube size limitations you must split it (using ffmpeg/avconvm, for example). 
+* If a video does not comply with Youtube size limitations you must split it (using ffmpeg/avconv, for example). 
 
 More
 ====

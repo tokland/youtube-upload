@@ -36,3 +36,22 @@ def string_to_dict(string):
     """Return dictionary from string "key1=value1, key2=value2"."""
     pairs = [s.strip() for s in (string or "").split(",")]
     return dict(pair.split("=") for pair in pairs)
+
+def retriable_exceptions(fun, retriable_exceptions, max_retries=None):
+    """Run function and retry on some exceptions (with exponential backoff)."""
+    retry = 0
+    while 1:
+        try:
+            return fun()
+        except tuple(retriable_exceptions) as exc:
+            retry += 1
+            if type(exc) not in retriable_exceptions:
+                raise exc
+            elif max_retries is not None and retry > max_retries:
+                lib.debug("Retry limit reached, time to give up")
+                raise exc
+            else:
+                seconds = random.uniform(0, 2**retry)
+                lib.debug("Retryable error {}/{}: {}. Waiting {} seconds".
+                    format(retry, max_retries or "-", type(exc).__name__, seconds))
+                time.sleep(seconds)
