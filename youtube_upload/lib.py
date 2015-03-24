@@ -53,6 +53,6 @@ def retriable_exceptions(fun, retriable_exceptions, max_retries=None):
                 raise exc
             else:
                 seconds = random.uniform(0, 2**retry)
-                lib.debug("Retryable error {}/{}: {}. Waiting {} seconds".
+                lib.debug("Retryable error {0}/{1}: {2}. Waiting {3} seconds".
                     format(retry, max_retries or "-", type(exc).__name__, seconds))
                 time.sleep(seconds)

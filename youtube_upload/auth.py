@@ -9,7 +9,7 @@ YOUTUBE_UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
 
 def _get_code_from_prompt(authorize_url):
     """Show authorization URL and return the code the user wrote."""
-    message = "Check this link in your browser: {}".format(authorize_url)
+    message = "Check this link in your browser: {0}".format(authorize_url)
     sys.stderr.write(message + "\n")
     return raw_input("Enter verification code: ").strip()
 

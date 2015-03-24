@@ -68,7 +68,7 @@ def get_category_id(category):
         if category in youtube_upload.categories.IDS:
             return str(youtube_upload.categories.IDS[category])
         else:
-            msg = "{} is not a valid category".format(category)
+            msg = "{0} is not a valid category".format(category)
             raise InvalidCategory(msg)
 
 def upload_video(youtube, options, video_path, total_videos, index):
@@ -95,7 +95,7 @@ def upload_video(youtube, options, video_path, total_videos, index):
         },
     }
 
-    debug("Start upload: {} ({})".format(video_path, complete_title))
+    debug("Start upload: {0} ({1})".format(video_path, complete_title))
     video_id = youtube_upload.upload_video.upload(youtube, video_path, body,
         progress_callback=progress.callback, chunksize=16*1024)
     progress.finish()
@@ -116,14 +116,14 @@ def run_main(parser, options, args, output=sys.stdout):
     default_credentials = os.path.join(home, ".youtube-upload-credentials.json")
     client_secrets = options.client_secrets or default_client_secrets
     credentials = options.credentials_file or default_credentials
-    debug("Using client secrets: {}".format(client_secrets))
-    debug("Using credentials file: {}".format(credentials))
+    debug("Using client secrets: {0}".format(client_secrets))
+    debug("Using credentials file: {0}".format(credentials))
     youtube = youtube_upload.auth.get_resource(client_secrets, credentials)
 
     for index, video_path in enumerate(args):
         video_id = upload_video(youtube, options, video_path, len(args), index)
         video_url = WATCH_VIDEO_URL.format(id=video_id)
-        debug("Video URL: {}".format(video_url))
+        debug("Video URL: {0}".format(video_url))
         output.write(video_id + "\n")
 
 def main(arguments):
