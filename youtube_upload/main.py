@@ -43,11 +43,6 @@ debug = lib.debug
 
 def get_progress_info():
     """Return a function callback to update the progressbar."""
-    def _callback(total_size, completed):
-        if not hasattr(bar, "next_update"):
-            bar.maxval = total_size
-            bar.start()
-        bar.update(completed)
     build = collections.namedtuple("ProgressInfo", ["callback", "finish"])
 
     if progressbar:
@@ -58,6 +53,11 @@ def get_progress_info():
             progressbar.FileTransferSpeed(),
         ]
         bar = progressbar.ProgressBar(widgets=widgets)
+        def _callback(total_size, completed):
+            if not hasattr(bar, "next_update"):
+                bar.maxval = total_size
+                bar.start()
+            bar.update(completed)
         return build(callback=_callback, finish=bar.finish)
     else:
         return build(callback=None, finish=lambda: True)
