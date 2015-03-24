@@ -4,6 +4,7 @@ import httplib
 
 import apiclient.http
 import httplib2
+from googleapiclient.errors import ResumableUploadError
 
 import lib
 
@@ -12,6 +13,7 @@ RETRIABLE_EXCEPTIONS = [
     httplib.IncompleteRead, httplib.ImproperConnectionState,
     httplib.CannotSendRequest, httplib.CannotSendHeader,
     httplib.ResponseNotReady, httplib.BadStatusLine,
+    ResumableUploadError
 ]
 
 def _upload_to_request(request, progress_callback):
