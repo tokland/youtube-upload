@@ -34,8 +34,9 @@ def first(it):
 
 def string_to_dict(string):
     """Return dictionary from string "key1=value1, key2=value2"."""
-    pairs = [s.strip() for s in (string or "").split(",")]
-    return dict(pair.split("=") for pair in pairs)
+    if string:
+        pairs = [s.strip() for s in string.split(",")]
+        return dict(pair.split("=") for pair in pairs)
 
 def retriable_exceptions(fun, retriable_exceptions, max_retries=None):
     """Run function and retry on some exceptions (with exponential backoff)."""
