@@ -1,5 +1,7 @@
 import sys
 import locale
+import random
+import time
 
 def to_utf8(s):
     """Re-encode string from the default system encoding to UTF-8."""
@@ -49,10 +51,10 @@ def retriable_exceptions(fun, retriable_exceptions, max_retries=None):
             if type(exc) not in retriable_exceptions:
                 raise exc
             elif max_retries is not None and retry > max_retries:
-                lib.debug("Retry limit reached, time to give up")
+                debug("Retry limit reached, time to give up")
                 raise exc
             else:
                 seconds = random.uniform(0, 2**retry)
-                lib.debug("Retryable error {0}/{1}: {2}. Waiting {3} seconds".
+                debug("Retryable error {0}/{1}: {2}. Waiting {3} seconds".
                     format(retry, max_retries or "-", type(exc).__name__, seconds))
                 time.sleep(seconds)

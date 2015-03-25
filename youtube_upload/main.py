@@ -145,7 +145,7 @@ def main(arguments):
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
         default="public", help='Privacy status (public | unlisted | private)')
     parser.add_option('', '--location', dest='location', type="string",
-        default=None, metavar="latitude=VAL, longitude=VAL, altitude=VAL",
+        default=None, metavar="latitude=VAL,longitude=VAL[,altitude=VAL]",
         help='Video(s) location"')
     parser.add_option('', '--title-template', dest='title_template',
         type="string", default="{title} [{n}/{total}]", metavar="STRING",
