@@ -7,7 +7,7 @@ Dependencies
 ============
 
   * [Python 2.6 or 2.7](http://www.python.org). Python 3.0 is NOT supported.
-  * [Python Google API](https://github.com/google/google-api-python-client)
+  * [Python Google API](https://developers.google.com/api-client-library/python/apis/youtube/v3)
 
 Install
 =======
@@ -71,7 +71,14 @@ Caveats
 
 * The package includes a default ```client_secrets.json``` file. If you plan to make a heavy use of the script, please [create and use your own OAuth 2.0 file](https://developers.google.com/youtube/registering_an_application).
 
-* If a video does not comply with Youtube size limitations you must split it (using ffmpeg/avconv, for example). 
+* If a video does not comply with Youtube size limitations you must split it (using ffmpeg/avconv, for example).
+
+Notes for developers
+====================
+
+* Main logic of the upload: [main.py](youtube_upload/main.py) (function ```upload_video```).
+* Check the [Youtube Data API](https://developers.google.com/youtube/v3/docs/).
+* Some [examples](https://github.com/youtube/api-samples/tree/master/python).
 
 More
 ====
