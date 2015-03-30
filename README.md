@@ -34,21 +34,23 @@ You'll see that there is no email/password options. Instead, the Youtube API use
 Examples
 ========
 
-* Upload a video
+* Upload a video:
 
 ```
-$ youtube-upload --title="A.S. Mutter" --description="A.S. Mutter plays Beethoven" \
-                 --category=Music --tags="mutter, beethoven" anne_sophie_mutter.flv
+$ youtube-upload --title="A.S. Mutter" anne_sophie_mutter.flv
 pxzZ-fYjeYs
 ```
 
-* Upload a video with your own ```client_secrets.json``` and credentials file:
+* Upload a video with more metadata and your own client secrets and credentials file:
 
 ```
-$ youtube-upload --title="A.S. Mutter" --description="A.S. Mutter plays Beethoven" \
-                 --category=Music --tags="mutter, beethoven" 
-                 --client-secrets=my_client_secrets.json
-                 --credentials-file=my_credentials.json anne_sophie_mutter.flv
+$ youtube-upload --title="A.S. Mutter" 
+                 --description="A.S. Mutter plays Beethoven" \
+                 --category=Music \
+                 --tags="mutter, beethoven" \
+                 --client-secrets=my_client_secrets.json \
+                 --credentials-file=my_credentials.json \
+                 anne_sophie_mutter.flv
 tx2Zb-145Yz
 ```
 
