@@ -1,7 +1,7 @@
 Introduction
 ============
 
-_Youtube-upload_ is a command-line script that uploads videos to Youtube (it should work on any platform -GNU/Linux, BSD, OS X, Windows, ...- that runs Python).
+_Youtube-upload_ is a command-line script that uploads videos to Youtube (it should work on any platform -GNU/Linux, BSD, OS X, Windows, ...- that runs Python) using the [APIv3](https://developers.google.com/youtube/v3/).
 
 Dependencies
 ============
@@ -70,8 +70,8 @@ Caveats
 =======
 
 * The package includes a default ```client_secrets.json``` file. If you plan to make a heavy use of the script, please [create and use your own OAuth 2.0 file](https://developers.google.com/youtube/registering_an_application).
-
 * If a video does not comply with Youtube size limitations you must split it (using ffmpeg/avconv, for example).
+* Check the [token expiration](https://developers.google.com/youtube/v3/) policies.
 
 Notes for developers
 ====================
@@ -84,9 +84,6 @@ More
 ====
 
 * License: [GNU/GPLv3](http://www.gnu.org/licenses/gpl.html). 
-
 * Bugs: [Open a issue](https://github.com/tokland/youtube-upload/issues).
-
 * New features: I'll try to fix bugs, but, to add functionality, please send a pull request.
-
-* [Donations](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&item_name=youtube%2dupload&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest).
+* [Want to donate?](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&item_name=youtube%2dupload&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest).
