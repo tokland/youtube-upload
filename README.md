@@ -1,7 +1,7 @@
 Introduction
 ============
 
-_Youtube-upload_ is a command-line script that uploads videos to Youtube (it should work on any platform -GNU/Linux, BSD, OS X, Windows, ...- that runs Python) using the [APIv3](https://developers.google.com/youtube/v3/).
+_Youtube-upload_ is a command line Python script that uploads videos to Youtube (it should work on any platform -GNU/Linux, BSD, OS X, Windows, ...- that runs Python) using theYoutube [APIv3](https://developers.google.com/youtube/v3/).
 
 Dependencies
 ============
@@ -89,5 +89,5 @@ More
 
 * License: [GNU/GPLv3](http://www.gnu.org/licenses/gpl.html). 
 * Bugs: [Open a issue](https://github.com/tokland/youtube-upload/issues).
-* New features: I'll try to fix bugs, but, to add functionality, please send a pull request.
+* New features: I'll try to fix bugs, but if you want some functionality added you will have to send a pull request.
 * [Want to donate?](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&item_name=youtube%2dupload&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
