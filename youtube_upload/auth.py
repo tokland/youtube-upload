@@ -1,8 +1,7 @@
 """Wrapper for Google OAuth2 API."""
 import sys
 
-import apiclient.discovery
-import oauth2client
+import googleapiclient.discovery
 import httplib2
 
 YOUTUBE_UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
