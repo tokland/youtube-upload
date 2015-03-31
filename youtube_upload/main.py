@@ -1,7 +1,9 @@
 #!/usr/bin/python2
+# 
+# Upload videos to Youtube from the command-line using APIv3.
 #
 # Author: Arnau Sanchez <pyarnau@gmail.com>
-# Project site: https://github.com/tokland/youtube-upload
+# Project: https://github.com/tokland/youtube-upload
 """
 Upload a video to Youtube from the command-line.
 
@@ -10,7 +12,7 @@ Upload a video to Youtube from the command-line.
                      --category=Music \
                      --tags="mutter, beethoven" \
                      anne_sophie_mutter.flv
-    www.youtube.com/watch?v=pxzZ-fYjeYs
+    pxzZ-fYjeYs
 """
 
 import os
@@ -80,7 +82,7 @@ def upload_video(youtube, options, video_path, total_videos, index):
         (options.title_template.format(**ns) if total_videos > 1 else title)
     progress = get_progress_info()
     category_id = get_category_id(options.category)
-    body = {
+    request_body = {
         "snippet": {
             "title": complete_title,
             "tags": map(str.strip, (options.tags or "").split(",")),
@@ -96,7 +98,7 @@ def upload_video(youtube, options, video_path, total_videos, index):
     }
 
     debug("Start upload: {0} ({1})".format(video_path, complete_title))
-    video_id = youtube_upload.upload_video.upload(youtube, video_path, body,
+    video_id = youtube_upload.upload_video.upload(youtube, video_path, request_body,
         progress_callback=progress.callback, chunksize=16*1024)
     progress.finish()
     return video_id
@@ -128,9 +130,9 @@ def run_main(parser, options, args, output=sys.stdout):
 
 def main(arguments):
     """Upload videos to Youtube."""
-    usage = """Usage: %prog [OPTIONS] VIDEO_PATH [VIDEO_PATH2 ...]
+    usage = """Usage: %prog [OPTIONS] VIDEO [VIDEO2 ...]
 
-    Upload videos to youtube."""
+    Upload videos to Youtube."""
     parser = optparse.OptionParser(usage)
 
     # Video metadata
