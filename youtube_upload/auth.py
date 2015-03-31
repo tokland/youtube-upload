@@ -1,7 +1,7 @@
 """Wrapper for Google OAuth2 API."""
 import sys
 
-import apiclient.discovery
+import googleapiclient.discovery
 import oauth2client
 import httplib2
 
