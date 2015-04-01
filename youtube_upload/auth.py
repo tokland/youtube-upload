@@ -39,4 +39,4 @@ def get_resource(client_secrets_file, credentials_file, get_code_callback=None):
     get_code = get_code_callback or _get_code_from_prompt
     credentials = _get_credentials(flow, storage, get_code)
     http = credentials.authorize(httplib2.Http())
-    return apiclient.discovery.build("youtube", "v3", http=http)
+    return googleapiclient.discovery.build("youtube", "v3", http=http)
