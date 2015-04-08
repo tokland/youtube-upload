@@ -24,6 +24,7 @@ import youtube_upload.auth
 import youtube_upload.upload_video
 import youtube_upload.categories
 import youtube_upload.lib as lib
+import oauth2client
 
 # http://code.google.com/p/python-progressbar (>= 2.3)
 try:
@@ -33,10 +34,13 @@ except ImportError:
 
 class InvalidCategory(Exception): pass
 class OptionsMissing(Exception): pass
+class AuthenticationError(Exception): pass
 
 EXIT_CODES = {
     OptionsMissing: 2,
     InvalidCategory: 3,
+    AuthenticationError: 4,
+    oauth2client.client.FlowExchangeError: 4,
 }
 
 WATCH_VIDEO_URL = "https://www.youtube.com/watch?v={id}"
@@ -120,13 +124,19 @@ def run_main(parser, options, args, output=sys.stdout):
     credentials = options.credentials_file or default_credentials
     debug("Using client secrets: {0}".format(client_secrets))
     debug("Using credentials file: {0}".format(credentials))
-    youtube = youtube_upload.auth.get_resource(client_secrets, credentials)
+    get_code_callback = (youtube_upload.auth._get_code_from_browser 
+        if options.auth_gui else None)
+    youtube = youtube_upload.auth.get_resource(client_secrets, credentials,
+        get_code_callback=get_code_callback)
 
-    for index, video_path in enumerate(args):
-        video_id = upload_video(youtube, options, video_path, len(args), index)
-        video_url = WATCH_VIDEO_URL.format(id=video_id)
-        debug("Video URL: {0}".format(video_url))
-        output.write(video_id + "\n")
+    if youtube:
+        for index, video_path in enumerate(args):
+            video_id = upload_video(youtube, options, video_path, len(args), index)
+            video_url = WATCH_VIDEO_URL.format(id=video_id)
+            debug("Video URL: {0}".format(video_url))
+            output.write(video_id + "\n")
+    else:
+        raise AuthenticationError("Cannot get youtube resource")
 
 def main(arguments):
     """Upload videos to Youtube."""
@@ -158,6 +168,8 @@ def main(arguments):
         type="string", help='Client secrets JSON file')
     parser.add_option('', '--credentials-file', dest='credentials_file',
         type="string", help='Client secrets JSON file')
+    parser.add_option('', '--auth-gui', dest='auth_gui', action="store_true",
+        help='Open a GUI browser to authenticate if required')
 
     options, args = parser.parse_args(arguments)
     run_main(parser, options, args)
