@@ -2,7 +2,20 @@ import sys
 import locale
 import random
 import time
+import signal
+from contextlib import contextmanager
 
+@contextmanager
+def default_sigint():
+    original_sigint_handler = signal.getsignal(signal.SIGINT)
+    signal.signal(signal.SIGINT, signal.SIG_DFL)
+    try:
+        yield
+    except:
+        raise
+    finally:
+        signal.signal(signal.SIGINT, original_sigint_handler)
+        
 def to_utf8(s):
     """Re-encode string from the default system encoding to UTF-8."""
     current = locale.getpreferredencoding()
