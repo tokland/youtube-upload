@@ -6,9 +6,21 @@ import googleapiclient.discovery
 import oauth2client
 import httplib2
 
+import lib
+
+try:
+    from PyQt4 import QtCore, QtGui, QtWebKit
+    WEBKIT_BACKEND = "qt"
+except ImportError:
+    import gtk
+    import webkit
+    WEBKIT_BACKEND = "gtk"
+except ImportError:
+    WEBKIT_BACKEND = None
+
 YOUTUBE_UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
 
-JAVASCRIPT_AUTHORIZATION_SET_STATUS = """
+CHECK_AUTH_JS = """
     var code = document.getElementById("code");
     var access_denied = document.getElementById("access_denied");
     var result;
@@ -20,8 +32,49 @@ JAVASCRIPT_AUTHORIZATION_SET_STATUS = """
     } else {
         result = {};
     }
-    window.status = JSON.stringify(result);
 """
+
+CHECK_AUTH_JS_GTK = CHECK_AUTH_JS + "window.status = JSON.stringify(result);"
+CHECK_AUTH_JS_QT = CHECK_AUTH_JS + "result;"
+
+def _get_code_from_browser(url, size=(640, 480), title="Google authentication"):
+    if WEBKIT_BACKEND == "qt":
+        lib.debug("Using webkit backend: QT")
+        with lib.default_sigint():
+            return _get_code_from_browser_qt(url, size=size, title=title)
+    elif WEBKIT_BACKEND == "gtk":
+        lib.debug("Using webkit backend: GTK")
+        return _get_code_from_browser_gtk(url, size=size, title=title)
+    else:
+        raise NotImplementedError("Install pywebkitgtk or qtwebkit")
+   
+def on_qt_page_load_finished(dialog, webview):
+    to_s = lambda x: (str(x.toUtf8()) if isinstance(x, QtCore.QString) else x)
+    frame = webview.page().currentFrame()
+    jscode = QtCore.QString(CHECK_AUTH_JS_QT)
+    res = frame.evaluateJavaScript(jscode)
+    authorization = dict((to_s(k), to_s(v)) for (k, v) in res.toPyObject().items())
+    if authorization:
+        dialog.authorization_code = authorization.get("code")
+        dialog.close()
+   
+def _get_code_from_browser_qt(url, size=(640, 480), title="Google authentication"):
+    app = QtGui.QApplication(sys.argv)
+    dialog = QtGui.QDialog()
+    dialog.setWindowTitle(title)
+    dialog.resize(*size)
+    webview = QtWebKit.QWebView()
+    webpage = QtWebKit.QWebPage()
+    webview.setPage(webpage)           
+    webpage.loadFinished.connect(lambda: on_qt_page_load_finished(dialog, webview))
+    webview.setUrl(QtCore.QUrl.fromEncoded(url))
+    layout = QtGui.QGridLayout()
+    layout.addWidget(webview)
+    dialog.setLayout(layout)
+    dialog.authorization_code = None
+    dialog.show()
+    app.exec_()
+    return dialog.authorization_code    
 
 def _on_webview_status_bar_changed(webview, status, dialog):
     if status:
@@ -30,11 +83,8 @@ def _on_webview_status_bar_changed(webview, status, dialog):
             dialog.set_data("authorization", result)
             dialog.response(0)
     
-def _get_code_from_browser(url, size=(640, 480), title="Google authentication"):
+def _get_code_from_browser_gtk(url, size=(640, 480), title="Google authentication"):
     """Open a webkit window and return the code the user wrote."""
-    import gtk
-    import webkit
-    
     dialog = gtk.Dialog(title=title)
     webview = webkit.WebView()
     scrolled = gtk.ScrolledWindow()
@@ -46,7 +96,7 @@ def _get_code_from_browser(url, size=(640, 480), title="Google authentication"):
     
     dialog.connect("delete-event", lambda event, data: dialog.response(1))
     webview.connect("load-finished", 
-        lambda view, frame: view.execute_script(JAVASCRIPT_AUTHORIZATION_SET_STATUS))       
+        lambda view, frame: view.execute_script(CHECK_AUTH_JS))       
     webview.connect("status-bar-text-changed", _on_webview_status_bar_changed, dialog)
     dialog.set_data("authorization", None)
     
@@ -61,7 +111,7 @@ def _get_code_from_browser(url, size=(640, 480), title="Google authentication"):
 def _get_code_from_prompt(authorize_url):
     """Show authorization URL and return the code the user wrote."""
     message = "Check this link in your browser: {0}".format(authorize_url)
-    sys.stderr.write(message + "\n")
+    lib.debug(message)
     return raw_input("Enter verification code: ")
 
 def _get_credentials_interactively(flow, storage, get_code_callback):
