@@ -2,8 +2,6 @@
 import sys
 import json
 
-import gtk
-import webkit
 import googleapiclient.discovery
 import oauth2client
 import httplib2
@@ -32,10 +30,13 @@ def _on_webview_status_bar_changed(webview, status, dialog):
             dialog.set_data("authorization", result)
             dialog.response(0)
     
-def _get_code_from_browser(url, size=(640, 480), title=None):
+def _get_code_from_browser(url, size=(640, 480), title="Google authentication"):
     """Open a webkit window and return the code the user wrote."""
+    import gtk
+    import webkit
+    
+    dialog = gtk.Dialog(title=title)
     webview = webkit.WebView()
-    dialog = gtk.Dialog(title=(title or "Google authentication"))
     scrolled = gtk.ScrolledWindow()
     scrolled.add(webview)
     dialog.get_children()[0].add(scrolled)
@@ -43,24 +44,25 @@ def _get_code_from_browser(url, size=(640, 480), title=None):
     dialog.resize(*size)
     dialog.show_all()
     
-    dialog.connect("delete-event", lambda ev, data: dialog.response(1))
+    dialog.connect("delete-event", lambda event, data: dialog.response(1))
     webview.connect("load-finished", 
-        lambda view, frame: webview.execute_script(JAVASCRIPT_AUTHORIZATION_SET_STATUS))       
+        lambda view, frame: view.execute_script(JAVASCRIPT_AUTHORIZATION_SET_STATUS))       
     webview.connect("status-bar-text-changed", _on_webview_status_bar_changed, dialog)
     dialog.set_data("authorization", None)
+    
     status = dialog.run()
     dialog.destroy()
     while gtk.events_pending():
         gtk.main_iteration(False)
     authorization = dialog.get_data("authorization")    
-    if status == 0 and authorization and authorization["authorized"]:
+    if status == 0 and authorization and authorization.get("authorized"):
         return authorization["code"]
         
 def _get_code_from_prompt(authorize_url):
     """Show authorization URL and return the code the user wrote."""
     message = "Check this link in your browser: {0}".format(authorize_url)
     sys.stderr.write(message + "\n")
-    return raw_input("Enter verification code: ").strip()
+    return raw_input("Enter verification code: ")
 
 def _get_credentials_interactively(flow, storage, get_code_callback):
     """Return the credentials asking the user."""
