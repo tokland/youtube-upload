@@ -41,6 +41,7 @@ EXIT_CODES = {
     InvalidCategory: 3,
     AuthenticationError: 4,
     oauth2client.client.FlowExchangeError: 4,
+    NotImplementedError: 5,
 }
 
 WATCH_VIDEO_URL = "https://www.youtube.com/watch?v={id}"
@@ -124,7 +125,7 @@ def run_main(parser, options, args, output=sys.stdout):
     credentials = options.credentials_file or default_credentials
     debug("Using client secrets: {0}".format(client_secrets))
     debug("Using credentials file: {0}".format(credentials))
-    get_code_callback = (youtube_upload.auth._get_code_from_browser 
+    get_code_callback = (youtube_upload.auth.get_code_from_browser 
         if options.auth_gui else None)
     youtube = youtube_upload.auth.get_resource(client_secrets, credentials,
         get_code_callback=get_code_callback)
