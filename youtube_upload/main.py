@@ -105,7 +105,7 @@ def upload_video(youtube, options, video_path, total_videos, index):
 
     debug("Start upload: {0} ({1})".format(video_path, complete_title))
     video_id = youtube_upload.upload_video.upload(youtube, video_path, request_body,
-        progress_callback=progress.callback, chunksize=16*1024)
+        progress_callback=progress.callback)
     progress.finish()
     return video_id
 

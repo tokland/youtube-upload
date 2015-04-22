@@ -28,7 +28,7 @@ def _upload_to_request(request, progress_callback):
         elif status and progress_callback:
             progress_callback(status.total_size, status.resumable_progress)
         
-def upload(resource, path, body, chunksize=int(1e6), progress_callback=None):
+def upload(resource, path, body, chunksize=1024*1024, progress_callback=None):
     """Upload video to Youtube. Return video ID."""
     body_keys = ",".join(body.keys())
     media = apiclient.http.MediaFileUpload(path, chunksize=chunksize, 
