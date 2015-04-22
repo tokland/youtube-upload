@@ -54,6 +54,12 @@ $ youtube-upload --title="A.S. Mutter"
 tx2Zb-145Yz
 ```
 
+* Upload a video using a browser window to authenticate (if required):
+
+```
+$ youtube-upload --title="A.S. Mutter" --auth-browser anne_sophie_mutter.flv
+```
+
 * Split a video with _ffmpeg_
 
 Youtube currently limits videos to <2Gb and <15' for almost all users. You can use the example script to split it before uploading:

@@ -20,11 +20,12 @@ import sys
 import optparse
 import collections
 
+import oauth2client
+
 import youtube_upload.auth
 import youtube_upload.upload_video
 import youtube_upload.categories
 import youtube_upload.lib as lib
-import oauth2client
 
 # http://code.google.com/p/python-progressbar (>= 2.3)
 try:
@@ -125,8 +126,8 @@ def run_main(parser, options, args, output=sys.stdout):
     credentials = options.credentials_file or default_credentials
     debug("Using client secrets: {0}".format(client_secrets))
     debug("Using credentials file: {0}".format(credentials))
-    get_code_callback = (youtube_upload.auth.get_code_from_browser 
-        if options.auth_gui else None)
+    get_code_callback = (youtube_upload.auth.browser.get_code 
+        if options.auth_browser else youtube_upload.auth.console.get_code)
     youtube = youtube_upload.auth.get_resource(client_secrets, credentials,
         get_code_callback=get_code_callback)
 
@@ -169,7 +170,7 @@ def main(arguments):
         type="string", help='Client secrets JSON file')
     parser.add_option('', '--credentials-file', dest='credentials_file',
         type="string", help='Client secrets JSON file')
-    parser.add_option('', '--auth-gui', dest='auth_gui', action="store_true",
+    parser.add_option('', '--auth-browser', dest='auth_browser', action="store_true",
         help='Open a GUI browser to authenticate if required')
 
     options, args = parser.parse_args(arguments)
