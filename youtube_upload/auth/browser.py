@@ -4,10 +4,11 @@ try:
     from youtube_upload.auth import webkit_qt as backend
     WEBKIT_BACKEND = "qt"
 except ImportError:
-    from youtube_upload.auth import webkit_gtk as backend
-    WEBKIT_BACKEND = "gtk"
-except ImportError:
-    WEBKIT_BACKEND = None
+    try:
+        from youtube_upload.auth import webkit_gtk as backend
+        WEBKIT_BACKEND = "gtk"
+    except ImportError:
+        WEBKIT_BACKEND = None
 
 def get_code(url, size=(640, 480), title="Google authentication"):
     if WEBKIT_BACKEND:
