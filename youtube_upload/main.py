@@ -149,18 +149,18 @@ def main(arguments):
 
     # Video metadata
     parser.add_option('-t', '--title', dest='title', type="string",
-        help='Video(s) title')
+        help='Video title')
     parser.add_option('-c', '--category', dest='category', type="string",
-        help='Video(s) category')
+        help='Video category')
     parser.add_option('-d', '--description', dest='description', type="string",
-        help='Video(s) description')
+        help='Video description')
     parser.add_option('', '--tags', dest='tags', type="string",
-        help='Video(s) tags (separated by commas: tag1,tag2,...)')
+        help='Video tags (separated by commas: "tag1, tag2,...")')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
         default="public", help='Privacy status (public | unlisted | private)')
     parser.add_option('', '--location', dest='location', type="string",
         default=None, metavar="latitude=VAL,longitude=VAL[,altitude=VAL]",
-        help='Video(s) location"')
+        help='Video location"')
     parser.add_option('', '--title-template', dest='title_template',
         type="string", default="{title} [{n}/{total}]", metavar="STRING",
         help='Template for multiple videos (default: {title} [{n}/{total}])')
