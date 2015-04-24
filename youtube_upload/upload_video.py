@@ -1,5 +1,3 @@
-import time
-import random
 import httplib
 
 import apiclient.http
