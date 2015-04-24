@@ -117,12 +117,13 @@ def run_main(parser, options, args, output=sys.stdout):
         parser.print_usage()
         msg = "Some required option are missing: %s" % ", ".join(missing)
         raise OptionsMissing(msg)
-
-    default_client_secrets = \
-        os.path.join(sys.prefix, "share/youtube_upload/client_secrets.json")
     home = os.path.expanduser("~")
+    default_client_secrets = lib.get_first_existing_filename(
+        [sys.prefix, os.path.join(sys.prefix, "local")],
+        "share/youtube_upload/client_secrets.json")  
     default_credentials = os.path.join(home, ".youtube-upload-credentials.json")
-    client_secrets = options.client_secrets or default_client_secrets
+    client_secrets = options.client_secrets or default_client_secrets or \
+        os.path.join(home, ".client_secrets.json")
     credentials = options.credentials_file or default_credentials
     debug("Using client secrets: {0}".format(client_secrets))
     debug("Using credentials file: {0}".format(credentials))

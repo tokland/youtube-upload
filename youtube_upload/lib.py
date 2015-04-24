@@ -1,3 +1,4 @@
+import os
 import sys
 import locale
 import random
@@ -52,6 +53,13 @@ def string_to_dict(string):
     if string:
         pairs = [s.strip() for s in string.split(",")]
         return dict(pair.split("=") for pair in pairs)
+
+def get_first_existing_filename(prefixes, relative_path):
+    """Get the first existing filename of relative_path seeking on prefixes directories."""
+    for prefix in prefixes:
+        path = os.path.join(prefix, relative_path)
+        if os.path.exists(path):
+            return path
 
 def retriable_exceptions(fun, retriable_exceptions, max_retries=None):
     """Run function and retry on some exceptions (with exponential backoff)."""
