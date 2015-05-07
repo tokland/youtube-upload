@@ -9,6 +9,12 @@ Dependencies
   * [Python 2.6 or 2.7](http://www.python.org). Python 3.0 is NOT supported.
   * [Python Google API](https://developers.google.com/api-client-library/python/apis/youtube/v3)
 
+Check if your operating system provides a package for the google API library. If not, this should work:
+
+```
+$ pip install --upgrade google-api-python-client
+```
+
 Install
 =======
 
