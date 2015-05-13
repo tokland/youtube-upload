@@ -37,6 +37,17 @@ Authentication
 
 You'll see that there is no email/password options. Instead, the Youtube API uses [OAuth 2.0](https://developers.google.com/accounts/docs/OAuth2) to authenticate the upload. The first time you try to upload a video, you will be asked to follow a URL in your browser to get an authentication token. If you have multiple channels for the logged in user, you will also be asked to pick which one you want to upload the videos to. You can use multiple credentials, just use the option ```--credentials-file```. Also, check the [token expiration](https://developers.google.com/youtube/v3/) policies.
 
+The package includes a default ```client_secrets.json``` file. If you plan to make a heavy use of the script, please [create and use your own OAuth 2.0 file](https://developers.google.com/youtube/registering_an_application), it's a free service. Steps:
+
+* Go to the Google [https://console.developers.google.com/](console).
+* _Create project_.
+* Side menu: _APIs & auth_ -> _APIs_
+* Top menu: _Enabled API(s)_: Enable all Youtube APIs.
+* Side menu: _APIs & auth_ -> _Credentials_.
+* _Create new Client ID_: Application type: _Installed application_ + _Other_
+* _Download JSON_: save the file to your local system. 
+* Use the saved JSON as your credentials file: ```--credentials-file=CREDENTIALS_FILE```
+
 Examples
 ========
 
@@ -82,23 +93,9 @@ Set environment variables *http_proxy* and *https_proxy*:
 
 ```
 $ export http_proxy=http://user:password@host:port
-$ export https_proxy=http://user:password@host:port
+$ export https_proxy=$http_proxy
 $ youtube-upload ....
 ```
-
-Authentication
-==============
-
-The package includes a default ```client_secrets.json``` file. If you plan to make a heavy use of the script, please [create and use your own OAuth 2.0 file](https://developers.google.com/youtube/registering_an_application), it's a free service. Steps:
-
-* Go to the Google [https://console.developers.google.com/](console).
-* _Create project_.
-* Side menu: _APIs & auth_ -> _APIs_
-* Top menu: _Enabled API(s)_: Enable all Youtube APIs.
-* Side menu: _APIs & auth_ -> _Credentials_.
-* _Create new Client ID_: Application type: _Installed application_ + _Other_
-* _Download JSON_: save the file to your local system. 
-* Use the saved JSON as your credentials file: ```--credentials-file=CREDENTIALS_FILE```
 
 Notes for developers
 ====================
