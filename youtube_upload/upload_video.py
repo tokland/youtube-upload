@@ -7,8 +7,7 @@ import httplib2
 import lib
 
 RETRIABLE_EXCEPTIONS = [
-    IOError, googleapiclient.errors.ResumableUploadError,
-    httplib2.HttpLib2Error, httplib.NotConnected,
+    IOError, httplib2.HttpLib2Error, httplib.NotConnected,
     httplib.IncompleteRead, httplib.ImproperConnectionState,
     httplib.CannotSendRequest, httplib.CannotSendHeader,
     httplib.ResponseNotReady, httplib.BadStatusLine,

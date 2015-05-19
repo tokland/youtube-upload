@@ -20,6 +20,7 @@ import sys
 import optparse
 import collections
 
+import apiclient.errors
 import oauth2client
 
 import youtube_upload.auth
@@ -36,10 +37,12 @@ except ImportError:
 class InvalidCategory(Exception): pass
 class OptionsMissing(Exception): pass
 class AuthenticationError(Exception): pass
+class RequestError(Exception): pass
 
 EXIT_CODES = {
     OptionsMissing: 2,
     InvalidCategory: 3,
+    RequestError: 3,
     AuthenticationError: 4,
     oauth2client.client.FlowExchangeError: 4,
     NotImplementedError: 5,
@@ -74,6 +77,8 @@ def get_category_id(category):
     """Return category ID from its name."""
     if category:
         if category in youtube_upload.categories.IDS:
+            ncategory = youtube_upload.categories.IDS[category]
+            debug("Using category ID: {0} ({1})".format(category, ncategory))
             return str(youtube_upload.categories.IDS[category])
         else:
             msg = "{0} is not a valid category".format(category)
@@ -104,8 +109,11 @@ def upload_video(youtube, options, video_path, total_videos, index):
     }
 
     debug("Start upload: {0} ({1})".format(video_path, complete_title))
-    video_id = youtube_upload.upload_video.upload(youtube, video_path, 
-        request_body, progress_callback=progress.callback)
+    try:
+        video_id = youtube_upload.upload_video.upload(youtube, video_path, 
+            request_body, progress_callback=progress.callback)
+    except apiclient.errors.HttpError, error:
+        raise RequestError("Server response was: {0}".format(error.content.strip()))
     progress.finish()
     return video_id
 
