@@ -107,7 +107,11 @@ Notes for developers
 More
 ====
 
-* License: [GNU/GPLv3](http://www.gnu.org/licenses/gpl.html). 
-* Bugs: [Open a issue](https://github.com/tokland/youtube-upload/issues).
-* New features: I'll try to fix bugs, but if you want some functionality added you will have to send a pull request.
-* [Want to donate?](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&item_name=youtube%2dupload&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest)
+* License: [GNU/GPLv3](http://www.gnu.org/licenses/gpl.html).
+
+Feedback
+========
+
+* [Donations](https://www.paypal.com/cgi-bin/webscr?cmd=_donations&business=pyarnau%40gmail%2ecom&lc=US&item_name=youtube%2dupload&no_note=0&currency_code=EUR&bn=PP%2dDonationsBF%3abtn_donateCC_LG%2egif%3aNonHostedGuest).
+* If you found a bug, [open a issue](https://github.com/tokland/youtube-upload/issues).
+* If you want a new feature to be added, you'll have to send a pull request (or find a programmer to do it for you), currently I am not adding new features.
