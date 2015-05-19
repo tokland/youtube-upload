@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/env python
 # 
 # Upload videos to Youtube from the command-line using APIv3.
 #
@@ -51,7 +51,7 @@ debug = lib.debug
 
 def get_progress_info():
     """Return a function callback to update the progressbar."""
-    build = collections.namedtuple("ProgressInfo", ["callback", "finish"])
+    progressinfo = collections.namedtuple("ProgressInfo", ["callback", "finish"])
 
     if progressbar:
         widgets = [
@@ -66,9 +66,9 @@ def get_progress_info():
                 bar.maxval = total_size
                 bar.start()
             bar.update(completed)
-        return build(callback=_callback, finish=bar.finish)
+        return progressinfo(callback=_callback, finish=bar.finish)
     else:
-        return build(callback=None, finish=lambda: True)
+        return progressinfo(callback=None, finish=lambda: True)
 
 def get_category_id(category):
     """Return category ID from its name."""
@@ -91,12 +91,12 @@ def upload_video(youtube, options, video_path, total_videos, index):
     request_body = {
         "snippet": {
             "title": complete_title,
-            "tags": map(str.strip, (options.tags or "").split(",")),
             "description": description,
             "categoryId": category_id,
+            "tags": [s.strip() for s in (options.tags or "").split(",")],
         },
         "status": {
-            "privacyStatus": options.privacy
+            "privacyStatus": options.privacy,
         },
         "recordingDetails": {
             "location": lib.string_to_dict(options.location),
@@ -104,8 +104,8 @@ def upload_video(youtube, options, video_path, total_videos, index):
     }
 
     debug("Start upload: {0} ({1})".format(video_path, complete_title))
-    video_id = youtube_upload.upload_video.upload(youtube, video_path, request_body,
-        progress_callback=progress.callback)
+    video_id = youtube_upload.upload_video.upload(youtube, video_path, 
+        request_body, progress_callback=progress.callback)
     progress.finish()
     return video_id
 
@@ -115,7 +115,7 @@ def run_main(parser, options, args, output=sys.stdout):
     missing = [opt for opt in required_options if not getattr(options, opt)]
     if missing:
         parser.print_usage()
-        msg = "Some required option are missing: %s" % ", ".join(missing)
+        msg = "Some required option are missing: {0}".format(", ".join(missing))
         raise OptionsMissing(msg)
     home = os.path.expanduser("~")
     default_client_secrets = lib.get_first_existing_filename(
