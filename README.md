@@ -29,7 +29,7 @@ $ sudo python setup.py install
 
 ```
 $ cd youtube-upload-master
-$ PYTHONPATH=. python youtube_upload/youtube_upload.py ...
+$ PYTHONPATH=. python bin/youtube_upload ...
 ```
 
 Authentication
@@ -39,7 +39,7 @@ You'll see that there is no email/password options. Instead, the Youtube API use
 
 The package includes a default ```client_secrets.json``` file. If you plan to make a heavy use of the script, please [create and use your own OAuth 2.0 file](https://developers.google.com/youtube/registering_an_application), it's a free service. Steps:
 
-* Go to the Google [https://console.developers.google.com/](console).
+* Go to the Google [console](https://console.developers.google.com/).
 * _Create project_.
 * Side menu: _APIs & auth_ -> _APIs_
 * Top menu: _Enabled API(s)_: Enable all Youtube APIs.
