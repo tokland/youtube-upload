@@ -29,7 +29,7 @@ $ sudo python setup.py install
 
 ```
 $ cd youtube-upload-master
-$ PYTHONPATH=. python bin/youtube_upload ...
+$ PYTHONPATH=. python bin/youtube-upload ...
 ```
 
 Authentication
