@@ -7,13 +7,12 @@ Dependencies
 ============
 
   * [Python 2.6 or 2.7](http://www.python.org). Python 3.0 is NOT supported.
-  * Package [Google APIs for Python](https://developers.google.com/api-client-library/python)
-  * Package [progressbar](https://pypi.python.org/pypi/progressbar) (Optional)
+  * Packages: [google-api-python-client](https://developers.google.com/api-client-library/python), [progressbar](https://pypi.python.org/pypi/progressbar) (optional).
 
-Check if your operating system provides a package for the google API library. If not, this should work:
+Check if your operating system provides those packages. If not, you can install them with `pip`:
 
 ```
-$ pip install --upgrade google-api-python-client
+$ pip install --upgrade google-api-python-client progressbar
 ```
 
 Install
