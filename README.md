@@ -7,7 +7,8 @@ Dependencies
 ============
 
   * [Python 2.6 or 2.7](http://www.python.org). Python 3.0 is NOT supported.
-  * [Python Google API](https://developers.google.com/api-client-library/python/apis/youtube/v3)
+  * Package [Google APIs for Python](https://developers.google.com/api-client-library/python)
+  * Package [progressbar](https://pypi.python.org/pypi/progressbar) (Optional)
 
 Check if your operating system provides a package for the google API library. If not, this should work:
 
