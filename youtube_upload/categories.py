@@ -39,10 +39,9 @@ IDS = {
 }
 
 def get(region_code="us", api_key=None):
-    params = urllib.urlencode(dict(part="snippet", regionCode=region_code, key=api_key))
-    full_url = URL + "?" + params
+    params = dict(part="snippet", regionCode=region_code, key=api_key)  
+    full_url = URL + "?" + urllib.urlencode(params)
     response = urllib2.urlopen(full_url)
     categories_info = json.loads(response.read())
     items = categories_info["items"]
-    categories = dict((item["snippet"]["title"], item["id"]) for item in items)
-    return categories
+    return dict((item["snippet"]["title"], item["id"]) for item in items)

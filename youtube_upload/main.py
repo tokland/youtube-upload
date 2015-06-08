@@ -78,7 +78,7 @@ def get_category_id(category):
     if category:
         if category in youtube_upload.categories.IDS:
             ncategory = youtube_upload.categories.IDS[category]
-            debug("Using category ID: {0} ({1})".format(category, ncategory))
+            debug("Using category: {0} (id={1})".format(category, ncategory))
             return str(youtube_upload.categories.IDS[category])
         else:
             msg = "{0} is not a valid category".format(category)
@@ -86,9 +86,11 @@ def get_category_id(category):
 
 def upload_video(youtube, options, video_path, total_videos, index):
     """Upload video with index (for split videos)."""
-    title = lib.to_utf8(options.title)
-    description = lib.to_utf8(options.description or "").decode("string-escape")
-    ns = dict(title=title, n=index+1, total=total_videos)
+    u = lib.to_utf8
+    title = u(options.title)
+    description = u(options.description or "").decode("string-escape")
+    tags = [u(s.strip()) for s in (options.tags or "").split(",")]
+    ns = dict(title=u(options.title), n=index+1, total=total_videos)
     complete_title = \
         (options.title_template.format(**ns) if total_videos > 1 else title)
     progress = get_progress_info()
@@ -98,7 +100,7 @@ def upload_video(youtube, options, video_path, total_videos, index):
             "title": complete_title,
             "description": description,
             "categoryId": category_id,
-            "tags": [s.strip() for s in (options.tags or "").split(",")],
+            "tags": tags,
         },
         "status": {
             "privacyStatus": options.privacy,
@@ -108,7 +110,7 @@ def upload_video(youtube, options, video_path, total_videos, index):
         },
     }
 
-    debug("Start upload: {0} ({1})".format(video_path, complete_title))
+    debug("Start upload: {0}".format(video_path))
     try:
         video_id = youtube_upload.upload_video.upload(youtube, video_path, 
             request_body, progress_callback=progress.callback)

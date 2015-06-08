@@ -12,8 +12,6 @@ def default_sigint():
     signal.signal(signal.SIGINT, signal.SIG_DFL)
     try:
         yield
-    except:
-        raise
     finally:
         signal.signal(signal.SIGINT, original_sigint_handler)
         
@@ -72,7 +70,7 @@ def retriable_exceptions(fun, retriable_exceptions, max_retries=None):
             if type(exc) not in retriable_exceptions:
                 raise exc
             elif max_retries is not None and retry > max_retries:
-                debug("Retry limit reached, time to give up")
+                debug("[Retryable errors] Retry limit reached")
                 raise exc
             else:
                 seconds = random.uniform(0, 2**retry)
