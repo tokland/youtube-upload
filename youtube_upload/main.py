@@ -69,7 +69,10 @@ def get_progress_info():
                 bar.maxval = total_size
                 bar.start()
             bar.update(completed)
-        return progressinfo(callback=_callback, finish=bar.finish)
+        def _finish():
+            if hasattr(bar, "next_update"):
+                return bar.finish()
+        return progressinfo(callback=_callback, finish=_finish)
     else:
         return progressinfo(callback=None, finish=lambda: True)
 
