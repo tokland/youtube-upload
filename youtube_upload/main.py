@@ -149,6 +149,8 @@ def run_main(parser, options, args, output=sys.stdout):
         for index, video_path in enumerate(args):
             video_id = upload_video(youtube, options, video_path, len(args), index)
             video_url = WATCH_VIDEO_URL.format(id=video_id)
+            if options.thumb:
+                youtube.thumbnails().set(videoId=video_id, media_body=options.thumb).execute()
             debug("Video URL: {0}".format(video_url))
             output.write(video_id + "\n")
     else:
@@ -175,6 +177,8 @@ def main(arguments):
     parser.add_option('', '--location', dest='location', type="string",
         default=None, metavar="latitude=VAL,longitude=VAL[,altitude=VAL]",
         help='Video location"')
+    parser.add_option('', '--thumbnail', dest='thumb', type="string",
+        help='Video thumbnail')
     parser.add_option('', '--title-template', dest='title_template',
         type="string", default="{title} [{n}/{total}]", metavar="STRING",
         help='Template for multiple videos (default: {title} [{n}/{total}])')
