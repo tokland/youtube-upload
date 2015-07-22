@@ -51,10 +51,11 @@ EXIT_CODES = {
 WATCH_VIDEO_URL = "https://www.youtube.com/watch?v={id}"
 
 debug = lib.debug
+struct = collections.namedtuple
 
 def get_progress_info():
     """Return a function callback to update the progressbar."""
-    progressinfo = collections.namedtuple("ProgressInfo", ["callback", "finish"])
+    progressinfo = struct("ProgressInfo", ["callback", "finish"])
 
     if progressbar:
         widgets = [
@@ -93,9 +94,9 @@ def upload_video(youtube, options, video_path, total_videos, index):
     title = u(options.title)
     description = u(options.description or "").decode("string-escape")
     tags = [u(s.strip()) for s in (options.tags or "").split(",")]
-    ns = dict(title=u(options.title), n=index+1, total=total_videos)
-    complete_title = \
-        (options.title_template.format(**ns) if total_videos > 1 else title)
+    ns = dict(title=u(title), n=index+1, total=total_videos)
+    title_template = u(options.title_template)
+    complete_title = (title_template.format(**ns) if total_videos > 1 else title)
     progress = get_progress_info()
     category_id = get_category_id(options.category)
     request_body = {
@@ -118,8 +119,9 @@ def upload_video(youtube, options, video_path, total_videos, index):
         video_id = youtube_upload.upload_video.upload(youtube, video_path, 
             request_body, progress_callback=progress.callback)
     except apiclient.errors.HttpError, error:
-        raise RequestError("Server response was: {0}".format(error.content.strip()))
-    progress.finish()
+        raise RequestError("Server response: {0}".format(error.content.strip()))
+    finally:
+        progress.finish()
     return video_id
 
 def run_main(parser, options, args, output=sys.stdout):
