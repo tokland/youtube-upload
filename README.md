@@ -58,7 +58,7 @@ $ youtube-upload --title="A.S. Mutter" anne_sophie_mutter.flv
 pxzZ-fYjeYs
 ```
 
-* Upload a video with more metadata and your own client secrets and credentials file:
+* Upload a video with more metadata and your own client secrets and credentials file to a playlist:
 
 ```
 $ youtube-upload --title="A.S. Mutter" 
@@ -67,6 +67,7 @@ $ youtube-upload --title="A.S. Mutter"
                  --tags="mutter, beethoven" \
                  --client-secrets=my_client_secrets.json \
                  --credentials-file=my_credentials.json \
+                 --playlist "My favorite music" \
                  anne_sophie_mutter.flv
 tx2Zb-145Yz
 ```
