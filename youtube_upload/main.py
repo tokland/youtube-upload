@@ -185,19 +185,18 @@ def run_main(parser, options, args, output=sys.stdout):
                 # something has gone wrong
                 if existing_playlist_id is None:
                     debug('Error creating playlist')
-                    sys.exit(1)
-
-                # add video to playlist
-                youtube.playlistItems().insert(part='snippet', body={
-                    "snippet": {
-                        "playlistId": existing_playlist_id,
-                        "resourceId": {
-                            "kind": "youtube#video",
-                            "videoId": video_id
+                else:
+                    # add video to playlist
+                    youtube.playlistItems().insert(part='snippet', body={
+                        "snippet": {
+                            "playlistId": existing_playlist_id,
+                            "resourceId": {
+                                "kind": "youtube#video",
+                                "videoId": video_id
+                            }
                         }
-                    }
-                }).execute()
-                debug("Added video to playlist '{0}'".format(options.playlist))
+                    }).execute()
+                    debug("Added video to playlist '{0}'".format(options.playlist))
 
             debug("Video URL: {0}".format(video_url))
             output.write(video_id + "\n")
