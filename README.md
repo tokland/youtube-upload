@@ -61,18 +61,19 @@ pxzZ-fYjeYs
 * Upload a video with extra metadata, with your own client secrets and credentials file, and to a playlist (if not found, it will be created):
 
 ```
-$ youtube-upload --title="A.S. Mutter" 
-                 --description="A.S. Mutter plays Beethoven" \
-                 --category=Music \
-                 --tags="mutter, beethoven" \
-                 --client-secrets=my_client_secrets.json \
-                 --credentials-file=my_credentials.json \
-                 --playlist "My favorite music" \
-                 anne_sophie_mutter.flv
+$ youtube-upload \
+  --title="A.S. Mutter" 
+  --description="A.S. Mutter plays Beethoven" \
+  --category=Music \
+  --tags="mutter, beethoven" \
+  --client-secrets=my_client_secrets.json \
+  --credentials-file=my_credentials.json \
+  --playlist "My favorite music" \
+  anne_sophie_mutter.flv
 tx2Zb-145Yz
 ```
 
-* Upload a video using a browser window to authenticate (if required):
+* Upload a video using a browser GUI to authenticate:
 
 ```
 $ youtube-upload --title="A.S. Mutter" --auth-browser anne_sophie_mutter.flv
@@ -80,7 +81,7 @@ $ youtube-upload --title="A.S. Mutter" --auth-browser anne_sophie_mutter.flv
 
 * Split a video with _ffmpeg_
 
-Youtube currently limits videos to <2Gb and <15' for almost all users. You can use the example script to split it before uploading:
+If your video is too big or too long for Youtube limits, split it before uploading:
 
 ```
 $ bash examples/split_video_for_youtube.sh video.avi
