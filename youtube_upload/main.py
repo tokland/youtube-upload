@@ -27,7 +27,7 @@ import youtube_upload.auth
 import youtube_upload.upload_video
 import youtube_upload.categories
 import youtube_upload.lib as lib
-import playlists
+import youtube_upload.playlists as playlists
 
 # http://code.google.com/p/python-progressbar (>= 2.3)
 try:
