@@ -23,11 +23,11 @@ import collections
 import apiclient.errors
 import oauth2client
 
-import youtube_upload.auth
-import youtube_upload.upload_video
-import youtube_upload.categories
-import youtube_upload.lib as lib
-import youtube_upload.playlists as playlists
+import auth
+import upload_video
+import categories
+import lib
+import playlists
 
 # http://code.google.com/p/python-progressbar (>= 2.3)
 try:
@@ -81,15 +81,15 @@ def get_progress_info():
 def get_category_id(category):
     """Return category ID from its name."""
     if category:
-        if category in youtube_upload.categories.IDS:
-            ncategory = youtube_upload.categories.IDS[category]
+        if category in categories.IDS:
+            ncategory = categories.IDS[category]
             debug("Using category: {0} (id={1})".format(category, ncategory))
-            return str(youtube_upload.categories.IDS[category])
+            return str(categories.IDS[category])
         else:
             msg = "{0} is not a valid category".format(category)
             raise InvalidCategory(msg)
 
-def upload_video(youtube, options, video_path, total_videos, index):
+def upload_youtube_video(youtube, options, video_path, total_videos, index):
     """Upload video with index (for split videos)."""
     u = lib.to_utf8
     title = u(options.title)
@@ -117,7 +117,7 @@ def upload_video(youtube, options, video_path, total_videos, index):
 
     debug("Start upload: {0}".format(video_path))
     try:
-        video_id = youtube_upload.upload_video.upload(youtube, video_path, 
+        video_id = upload_video.upload(youtube, video_path, 
             request_body, progress_callback=progress.callback)
     except apiclient.errors.HttpError, error:
         raise RequestError("Server response: {0}".format(error.content.strip()))
@@ -143,14 +143,14 @@ def run_main(parser, options, args, output=sys.stdout):
     credentials = options.credentials_file or default_credentials
     debug("Using client secrets: {0}".format(client_secrets))
     debug("Using credentials file: {0}".format(credentials))
-    get_code_callback = (youtube_upload.auth.browser.get_code 
-        if options.auth_browser else youtube_upload.auth.console.get_code)
-    youtube = youtube_upload.auth.get_resource(client_secrets, credentials,
+    get_code_callback = (auth.browser.get_code 
+        if options.auth_browser else auth.console.get_code)
+    youtube = auth.get_resource(client_secrets, credentials,
         get_code_callback=get_code_callback)
 
     if youtube:
         for index, video_path in enumerate(args):
-            video_id = upload_video(youtube, options, video_path, len(args), index)
+            video_id = upload_youtube_video(youtube, options, video_path, len(args), index)
             video_url = WATCH_VIDEO_URL.format(id=video_id)
 
             if options.thumb:
@@ -204,5 +204,8 @@ def main(arguments):
     options, args = parser.parse_args(arguments)
     run_main(parser, options, args)
 
-if __name__ == '__main__':
+def run():
     sys.exit(lib.catch_exceptions(EXIT_CODES, main, sys.argv[1:]))
+  
+if __name__ == '__main__':
+    run()

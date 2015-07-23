@@ -1,1 +1,5 @@
-../youtube_upload/main.py
+#!/usr/bin/env python
+from youtube_upload import main
+
+if __name__ == '__main__':
+    main.run()
