@@ -183,7 +183,7 @@ def main(arguments):
     parser.add_option('', '--tags', dest='tags', type="string",
         help='Video tags (separated by commas: "tag1, tag2,...")')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
-        default="public", help='Privacy status (public | unlisted | private)')
+        default="private", help='Privacy status (public | unlisted | private)')
     parser.add_option('', '--publishAt', dest='publishAt', metavar="datetime",
        default="", help='Publish Date: YYYY-MM-DDThh:mm:ss.sZ')
     parser.add_option('', '--location', dest='location', type="string",
