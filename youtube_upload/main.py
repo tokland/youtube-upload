@@ -109,6 +109,8 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
         },
         "status": {
             "privacyStatus": options.privacy,
+            "publishAt": options.publishAt,
+
         },
         "recordingDetails": {
             "location": lib.string_to_dict(options.location),
@@ -182,6 +184,8 @@ def main(arguments):
         help='Video tags (separated by commas: "tag1, tag2,...")')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
         default="public", help='Privacy status (public | unlisted | private)')
+    parser.add_option('', '--publishAt', dest='publishAt', metavar="datetime",
+       default="", help='Publish Date: YYYY-MM-DDThh:mm:ss.sZ')
     parser.add_option('', '--location', dest='location', type="string",
         default=None, metavar="latitude=VAL,longitude=VAL[,altitude=VAL]",
         help='Video location"')
