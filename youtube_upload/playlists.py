@@ -1,8 +1,7 @@
 from lib import debug
 
-
 def get_playlist(youtube, title):
-    """Return users's playlist by title (None if not found)"""
+    """Return users's playlist ID by title (None if not found)"""
     playlists = youtube.playlists()
     request = playlists.list(mine=True, part='id,snippet')
     while request:
@@ -13,7 +12,8 @@ def get_playlist(youtube, title):
         request = playlists.list_next(request, results)
 
 def create_playlist(youtube, title, privacy):
-    """Create a playlist by title"""
+    """Create a playlist by title and return its ID"""
+    debug("Creating playlist: {0}".format(title))
     response = youtube.playlists().insert(part="snippet,status", body={
         "snippet": {
             "title": title,
@@ -22,24 +22,23 @@ def create_playlist(youtube, title, privacy):
             "privacyStatus": privacy,
         }
     }).execute()
-    return response.get('id', None)
+    return response.get('id')
 
-def add_video_to_playlist(youtube, playlist_id, video_id):
-    """Add video to playlist (by identifier)."""
+def add_video_to_existing_playlist(youtube, playlist_id, video_id):
+    """Add video to playlist (by identifier) and return the playlist ID."""
     return youtube.playlistItems().insert(part='snippet', body={
         "snippet": {
             "playlistId": playlist_id,
             "resourceId": {
                 "kind": "youtube#video",
-                "videoId": video_id
+                "videoId": video_id,
             }
         }
     }).execute()
-    return playlist_id
     
-def add_to_playlist(youtube, video_id, title, privacy="public"):
-    """Add video to playlist (by title)."""
+def add_video_to_playlist(youtube, video_id, title, privacy="public"):
+    """Add video to playlist (by title) and return the full response."""
     playlist_id = get_playlist(youtube, title) or \
         create_playlist(youtube, title, privacy)
     if playlist_id:
-        return add_video_to_playlist(youtube, playlist_id, video_id)
+        return add_video_to_existing_playlist(youtube, playlist_id, video_id)

@@ -158,7 +158,7 @@ def run_main(parser, options, args, output=sys.stdout):
                 youtube.thumbnails().set(videoId=video_id, media_body=options.thumb).execute()
 
             if options.playlist:
-                response = playlists.add_to_playlist(youtube, video_id, 
+                response = playlists.add_video_to_playlist(youtube, video_id, 
                     title=options.playlist, privacy=options.privacy)
                 if response:
                     playlist_id = response["snippet"]["playlistId"]
