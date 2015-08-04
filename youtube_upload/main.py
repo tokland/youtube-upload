@@ -152,14 +152,20 @@ def run_main(parser, options, args, output=sys.stdout):
         for index, video_path in enumerate(args):
             video_id = upload_youtube_video(youtube, options, video_path, len(args), index)
             video_url = WATCH_VIDEO_URL.format(id=video_id)
+            debug("Video URL: {0}".format(video_url))
 
             if options.thumb:
                 youtube.thumbnails().set(videoId=video_id, media_body=options.thumb).execute()
 
             if options.playlist:
-                playlists.add_to_playlist(youtube, video_id, options)
-
-            debug("Video URL: {0}".format(video_url))
+                response = playlists.add_to_playlist(youtube, video_id, 
+                    title=options.playlist, privacy=options.privacy)
+                if response:
+                    playlist_id = response["snippet"]["playlistId"]
+                    debug("Video added to playlist: {0}".format(playlist_id))
+                else:
+                    debug("Error adding video to playlist")
+                    
             output.write(video_id + "\n")
     else:
         raise AuthenticationError("Cannot get youtube resource")

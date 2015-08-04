@@ -1,46 +1,45 @@
 from lib import debug
 
-def add_to_playlist(youtube, video_id, options):
-    # find playlist with given name
-    existing_playlist_id = None
+
+def get_playlist(youtube, title):
+    """Return users's playlist by title (None if not found)"""
     playlists = youtube.playlists()
     request = playlists.list(mine=True, part='id,snippet')
-    while request is not None:
+    while request:
         results = request.execute()
         for item in results['items']:
-            if item.get('snippet', {}).get('title') == options.playlist:
-                existing_playlist_id = item.get('id')
+            if item.get('snippet', {}).get('title') == title:
+                return item.get('id')
+        request = playlists.list_next(request, results)
 
-        # stop paginating playlists on first matching playlist title
-        if existing_playlist_id is None:
-            request = playlists.list_next(request, results)
-        else:
-            break
+def create_playlist(youtube, title, privacy):
+    """Create a playlist by title"""
+    response = youtube.playlists().insert(part="snippet,status", body={
+        "snippet": {
+            "title": title,
+        },
+        "status": {
+            "privacyStatus": privacy,
+        }
+    }).execute()
+    return response.get('id', None)
 
-    # create playlist, if necessary
-    if existing_playlist_id is None:
-        playlists_insert_response = youtube.playlists().insert(part="snippet,status", body={
-            "snippet": {
-                "title": options.playlist
-            },
-            "status": {
-                "privacyStatus": options.privacy
+def add_video_to_playlist(youtube, playlist_id, video_id):
+    """Add video to playlist (by identifier)."""
+    return youtube.playlistItems().insert(part='snippet', body={
+        "snippet": {
+            "playlistId": playlist_id,
+            "resourceId": {
+                "kind": "youtube#video",
+                "videoId": video_id
             }
-        }).execute()
-        existing_playlist_id = playlists_insert_response.get('id', None)
-
-    # something has gone wrong
-    if existing_playlist_id is None:
-        debug('Error creating playlist')
-    else:
-        # add video to playlist
-        youtube.playlistItems().insert(part='snippet', body={
-            "snippet": {
-                "playlistId": existing_playlist_id,
-                "resourceId": {
-                    "kind": "youtube#video",
-                    "videoId": video_id
-                }
-            }
-        }).execute()
-        debug("Added video to playlist '{0}'".format(options.playlist))
+        }
+    }).execute()
+    return playlist_id
+    
+def add_to_playlist(youtube, video_id, title, privacy="public"):
+    """Add video to playlist (by title)."""
+    playlist_id = get_playlist(youtube, title) or \
+        create_playlist(youtube, title, privacy)
+    if playlist_id:
+        return add_video_to_playlist(youtube, playlist_id, video_id)
