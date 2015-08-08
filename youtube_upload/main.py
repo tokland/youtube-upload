@@ -23,11 +23,11 @@ import collections
 import apiclient.errors
 import oauth2client
 
-import auth
-import upload_video
-import categories
-import lib
-import playlists
+from . import auth
+from . import upload_video
+from . import categories
+from . import lib
+from . import playlists
 
 # http://code.google.com/p/python-progressbar (>= 2.3)
 try:
@@ -93,7 +93,10 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
     """Upload video with index (for split videos)."""
     u = lib.to_utf8
     title = u(options.title)
-    description = u(options.description or "").decode("string-escape")
+    if hasattr(u('string'), 'decode'):   
+        description = u(options.description or "").decode("string-escape")
+    else:
+        description = options.description
     tags = [u(s.strip()) for s in (options.tags or "").split(",")]
     ns = dict(title=u(title), n=index+1, total=total_videos)
     title_template = u(options.title_template)
@@ -119,7 +122,7 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
     try:
         video_id = upload_video.upload(youtube, video_path, 
             request_body, progress_callback=progress.callback)
-    except apiclient.errors.HttpError, error:
+    except apiclient.errors.HttpError as error:
         raise RequestError("Server response: {0}".format(error.content.strip()))
     finally:
         progress.finish()

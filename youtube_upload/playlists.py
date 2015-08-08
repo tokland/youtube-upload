@@ -1,4 +1,4 @@
-from lib import debug
+from .lib import debug
 
 
 def get_playlist(youtube, title):
