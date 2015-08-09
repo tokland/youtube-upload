@@ -21,11 +21,14 @@ def to_utf8(s):
     if hasattr(s, 'decode'):   
         return s.decode(current).encode("UTF-8") if s and current != "UTF-8" else s
     else:
-        return s
+        return bytes.decode(s)
 
 def debug(obj, fd=sys.stderr):
     """Write obj to standard error."""
-    unicode = str
+    try:
+        unicode
+    except NameError:
+        unicode = bytes
     string = str(obj.encode(get_encoding(fd), "backslashreplace")
                  if isinstance(obj, unicode) else obj)
     fd.write(string + "\n")
