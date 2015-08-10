@@ -1,5 +1,9 @@
-import urllib2
-import urllib
+try:
+    #import urllib2 
+    from urllib2 import urlopen    
+    import urllib
+except ImportError:
+    from urllib.request import urlopen
 import json
 
 URL = "https://www.googleapis.com/youtube/v3/videoCategories"
@@ -41,7 +45,7 @@ IDS = {
 def get(region_code="us", api_key=None):
     params = dict(part="snippet", regionCode=region_code, key=api_key)  
     full_url = URL + "?" + urllib.urlencode(params)
-    response = urllib2.urlopen(full_url)
+    response = urlopen(full_url)
     categories_info = json.loads(response.read())
     items = categories_info["items"]
     return dict((item["snippet"]["title"], item["id"]) for item in items)

@@ -18,10 +18,19 @@ def default_sigint():
 def to_utf8(s):
     """Re-encode string from the default system encoding to UTF-8."""
     current = locale.getpreferredencoding()
-    return s.decode(current).encode("UTF-8") if s and current != "UTF-8" else s
-
+    if hasattr(s, 'decode'):#Python 3 workaround
+        return s.decode(current).encode("UTF-8") if s and current != "UTF-8" else s
+    else:
+        if isinstance(s, bytes):
+            s = bytes.decode(s)
+        return s
+       
 def debug(obj, fd=sys.stderr):
     """Write obj to standard error."""
+    try:
+        unicode
+    except NameError:
+        unicode = bytes
     string = str(obj.encode(get_encoding(fd), "backslashreplace")
                  if isinstance(obj, unicode) else obj)
     fd.write(string + "\n")
