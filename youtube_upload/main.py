@@ -19,6 +19,7 @@ import os
 import sys
 import optparse
 import collections
+import webbrowser
 
 import apiclient.errors
 import oauth2client
@@ -54,6 +55,10 @@ WATCH_VIDEO_URL = "https://www.youtube.com/watch?v={id}"
 debug = lib.debug
 struct = collections.namedtuple
 
+def open_link(url):
+    """Opens a URL link in the client's browser."""
+    webbrowser.open(url)
+    
 def get_progress_info():
     """Return a function callback to update the progressbar."""
     progressinfo = struct("ProgressInfo", ["callback", "finish"])
@@ -156,7 +161,9 @@ def run_main(parser, options, args, output=sys.stdout):
             video_id = upload_youtube_video(youtube, options, video_path, len(args), index)
             video_url = WATCH_VIDEO_URL.format(id=video_id)
             debug("Video URL: {0}".format(video_url))
-
+            if options.open_link:
+                open_link(video_url) #Opens the Youtube Video's link in a webbrowser
+                
             if options.thumb:
                 youtube.thumbnails().set(videoId=video_id, media_body=options.thumb).execute()
 
@@ -207,8 +214,12 @@ def main(arguments):
         type="string", help='Client secrets JSON file')
     parser.add_option('', '--credentials-file', dest='credentials_file',
         type="string", help='Credentials JSON file')
-    parser.add_option('', '--auth-browser', dest='auth_browser', action="store_true",
+    parser.add_option('', '--auth-browser', dest='auth_browser', action='store_true',
         help='Open a GUI browser to authenticate if required')
+
+    #Additional options
+    parser.add_option('', '--open-link', dest='open_link', action='store_true',
+        help='Opens a url in a web browser to display uploaded videos')
 
     options, args = parser.parse_args(arguments)
     run_main(parser, options, args)
