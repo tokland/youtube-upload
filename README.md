@@ -6,7 +6,7 @@ _Youtube-upload_ is a command line Python script that uploads videos to Youtube 
 Dependencies
 ============
 
-  * [Python 2.6 or 2.7](http://www.python.org). Python 3.0 is NOT supported.
+  * [Python 2.6/2.7/3.x](http://www.python.org).
   * Packages: [google-api-python-client](https://developers.google.com/api-client-library/python), [progressbar](https://pypi.python.org/pypi/progressbar) (optional).
 
 Check if your operating system provides those packages. If not, you can install them with `pip`:
