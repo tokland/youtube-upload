@@ -24,7 +24,7 @@ def _upload_to_request(request, progress_callback):
                 raise KeyError("Expected field 'id' not found in response")
         elif status and progress_callback:
             progress_callback(status.total_size, status.resumable_progress)
-        
+
 def upload(resource, path, body, chunksize=1024*1024, 
         progress_callback=None, max_retries=10):
     """Upload video to Youtube. Return video ID."""

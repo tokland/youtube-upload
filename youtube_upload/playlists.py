@@ -3,12 +3,12 @@ from lib import debug
 def get_playlist(youtube, title):
     """Return users's playlist ID by title (None if not found)"""
     playlists = youtube.playlists()
-    request = playlists.list(mine=True, part='id,snippet')
+    request = playlists.list(mine=True, part="id,snippet")
     while request:
         results = request.execute()
-        for item in results['items']:
-            if item.get('snippet', {}).get('title') == title:
-                return item.get('id')
+        for item in results["items"]:
+            if item.get("snippet", {}).get("title") == title:
+                return item.get("id")
         request = playlists.list_next(request, results)
 
 def create_playlist(youtube, title, privacy):
@@ -22,11 +22,12 @@ def create_playlist(youtube, title, privacy):
             "privacyStatus": privacy,
         }
     }).execute()
-    return response.get('id')
+    return response.get("id")
 
 def add_video_to_existing_playlist(youtube, playlist_id, video_id):
     """Add video to playlist (by identifier) and return the playlist ID."""
-    return youtube.playlistItems().insert(part='snippet', body={
+    debug("Adding video to playlist: {0}".format(playlist_id))
+    return youtube.playlistItems().insert(part="snippet", body={
         "snippet": {
             "playlistId": playlist_id,
             "resourceId": {
@@ -42,3 +43,5 @@ def add_video_to_playlist(youtube, video_id, title, privacy="public"):
         create_playlist(youtube, title, privacy)
     if playlist_id:
         return add_video_to_existing_playlist(youtube, playlist_id, video_id)
+    else:
+        debug("Error adding video to playlist")

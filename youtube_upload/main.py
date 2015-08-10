@@ -95,7 +95,7 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
     title = u(options.title)
     description = u(options.description or "").decode("string-escape")
     tags = [u(s.strip()) for s in (options.tags or "").split(",")]
-    ns = dict(title=u(title), n=index+1, total=total_videos)
+    ns = dict(title=title, n=index+1, total=total_videos)
     title_template = u(options.title_template)
     complete_title = (title_template.format(**ns) if total_videos > 1 else title)
     progress = get_progress_info()
@@ -125,14 +125,8 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
         progress.finish()
     return video_id
 
-def run_main(parser, options, args, output=sys.stdout):
-    """Run the main scripts from the parsed options/args."""
-    required_options = ["title"]
-    missing = [opt for opt in required_options if not getattr(options, opt)]
-    if missing:
-        parser.print_usage()
-        msg = "Some required option are missing: {0}".format(", ".join(missing))
-        raise OptionsMissing(msg)
+def get_youtube_handler(options):
+    """Return the API Youtube object."""
     home = os.path.expanduser("~")
     default_client_secrets = lib.get_first_existing_filename(
         [sys.prefix, os.path.join(sys.prefix, "local")],
@@ -145,8 +139,18 @@ def run_main(parser, options, args, output=sys.stdout):
     debug("Using credentials file: {0}".format(credentials))
     get_code_callback = (auth.browser.get_code 
         if options.auth_browser else auth.console.get_code)
-    youtube = auth.get_resource(client_secrets, credentials,
+    return auth.get_resource(client_secrets, credentials,
         get_code_callback=get_code_callback)
+
+def run_main(parser, options, args, output=sys.stdout):
+    """Run the main scripts from the parsed options/args."""
+    required_options = ["title"]
+    missing = [opt for opt in required_options if not getattr(options, opt)]
+    if missing:
+        parser.print_usage()
+        msg = "Some required option are missing: {0}".format(", ".join(missing))
+        raise OptionsMissing(msg)
+    youtube = get_youtube_handler(options)
 
     if youtube:
         for index, video_path in enumerate(args):
@@ -156,16 +160,9 @@ def run_main(parser, options, args, output=sys.stdout):
 
             if options.thumb:
                 youtube.thumbnails().set(videoId=video_id, media_body=options.thumb).execute()
-
             if options.playlist:
-                response = playlists.add_video_to_playlist(youtube, video_id, 
+                playlists.add_video_to_playlist(youtube, video_id, 
                     title=options.playlist, privacy=options.privacy)
-                if response:
-                    playlist_id = response["snippet"]["playlistId"]
-                    debug("Video added to playlist: {0}".format(playlist_id))
-                else:
-                    debug("Error adding video to playlist")
-                    
             output.write(video_id + "\n")
     else:
         raise AuthenticationError("Cannot get youtube resource")
@@ -194,7 +191,7 @@ def main(arguments):
     parser.add_option('', '--thumbnail', dest='thumb', type="string",
         help='Video thumbnail')
     parser.add_option('', '--playlist', dest='playlist', type="string",
-        help='Playlist title (will create if necessary)')
+        help='Playlist title (if it does not exist, it will be created)')
     parser.add_option('', '--title-template', dest='title_template',
         type="string", default="{title} [{n}/{total}]", metavar="STRING",
         help='Template for multiple videos (default: {title} [{n}/{total}])')
