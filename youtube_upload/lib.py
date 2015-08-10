@@ -18,11 +18,13 @@ def default_sigint():
 def to_utf8(s):
     """Re-encode string from the default system encoding to UTF-8."""
     current = locale.getpreferredencoding()
-    if hasattr(s, 'decode'):   
+    if hasattr(s, 'decode'):#Python 3 workaround
         return s.decode(current).encode("UTF-8") if s and current != "UTF-8" else s
     else:
-        return bytes.decode(s)
-
+        if isinstance(s, bytes):
+            s = bytes.decode(s)
+        return s
+       
 def debug(obj, fd=sys.stderr):
     """Write obj to standard error."""
     try:
