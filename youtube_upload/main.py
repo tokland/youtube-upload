@@ -144,7 +144,7 @@ def parse_options_error(parser, options):
         debug("Your video will remain private until specified date.")
 
 def run_main(parser, options, args, output=sys.stdout):
-    """First parse the passed options roughly for validity"""
+    """First check the passed options roughly for validity"""
     parse_options_error(parser, options)
     """Run the main scripts from the parsed options/args."""
     home = os.path.expanduser("~")
