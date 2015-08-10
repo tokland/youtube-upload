@@ -36,12 +36,12 @@ except ImportError:
     progressbar = None
 
 class InvalidCategory(Exception): pass
-class OptionsMissing(Exception): pass
+class OptionsError(Exception): pass
 class AuthenticationError(Exception): pass
 class RequestError(Exception): pass
 
 EXIT_CODES = {
-    OptionsMissing: 2,
+    OptionsError: 2,
     InvalidCategory: 3,
     RequestError: 3,
     AuthenticationError: 4,
@@ -109,7 +109,7 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
         },
         "status": {
             "privacyStatus": options.privacy,
-            "publishAt": options.publishAt,
+            "publishAt": options.publish-at,
 
         },
         "recordingDetails": {
@@ -127,14 +127,26 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
         progress.finish()
     return video_id
 
-def run_main(parser, options, args, output=sys.stdout):
-    """Run the main scripts from the parsed options/args."""
+def parse_options_error(parser, options):
     required_options = ["title"]
     missing = [opt for opt in required_options if not getattr(options, opt)]
     if missing:
         parser.print_usage()
         msg = "Some required option are missing: {0}".format(", ".join(missing))
-        raise OptionsMissing(msg)
+        raise OptionsError(msg)
+    scheduled = getattr(options, "publish-at") != None
+    if scheduled:
+        if getattr(options, "privacy") == "listed":
+            parser.print_usage()
+            msg = "The 'publish-at' option will publish your video for all audiences. It can not be used with '--privacy=listed'."
+            raise OptionsError(msg)
+        setattr(options, "privacy", "private")
+        debug("Your video will remain private until specified date.")
+
+def run_main(parser, options, args, output=sys.stdout):
+    """First parse the passed options roughly for validity"""
+    parse_options_error(parser, options)
+    """Run the main scripts from the parsed options/args."""
     home = os.path.expanduser("~")
     default_client_secrets = lib.get_first_existing_filename(
         [sys.prefix, os.path.join(sys.prefix, "local")],
@@ -183,9 +195,9 @@ def main(arguments):
     parser.add_option('', '--tags', dest='tags', type="string",
         help='Video tags (separated by commas: "tag1, tag2,...")')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
-        default="private", help='Privacy status (public | unlisted | private)')
-    parser.add_option('', '--publishAt', dest='publishAt', metavar="datetime",
-       default="", help='Publish Date: YYYY-MM-DDThh:mm:ss.sZ')
+        default="public", help='Privacy status (public | unlisted | private)')
+    parser.add_option('', '--publish-at', dest='publish-at', metavar="datetime",
+       default=None, help='Publish Date: YYYY-MM-DDThh:mm:ss.sZ')
     parser.add_option('', '--location', dest='location', type="string",
         default=None, metavar="latitude=VAL,longitude=VAL[,altitude=VAL]",
         help='Video location"')
