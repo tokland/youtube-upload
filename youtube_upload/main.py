@@ -37,12 +37,12 @@ except ImportError:
     progressbar = None
 
 class InvalidCategory(Exception): pass
-class OptionsMissing(Exception): pass
+class OptionsError(Exception): pass
 class AuthenticationError(Exception): pass
 class RequestError(Exception): pass
 
 EXIT_CODES = {
-    OptionsMissing: 2,
+    OptionsError: 2,
     InvalidCategory: 3,
     RequestError: 3,
     AuthenticationError: 4,
@@ -117,6 +117,8 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
         },
         "status": {
             "privacyStatus": options.privacy,
+            "publishAt": options.publish_at,
+
         },
         "recordingDetails": {
             "location": lib.string_to_dict(options.location),
@@ -150,14 +152,27 @@ def get_youtube_handler(options):
     return auth.get_resource(client_secrets, credentials,
         get_code_callback=get_code_callback)
 
-def run_main(parser, options, args, output=sys.stdout):
-    """Run the main scripts from the parsed options/args."""
+def parse_options_error(parser, options):
     required_options = ["title"]
     missing = [opt for opt in required_options if not getattr(options, opt)]
     if missing:
         parser.print_usage()
         msg = "Some required option are missing: {0}".format(", ".join(missing))
-        raise OptionsMissing(msg)
+        raise OptionsError(msg)
+    scheduled = getattr(options, "publish_at") != None
+    if scheduled:
+        if getattr(options, "privacy") == "listed":
+            parser.print_usage()
+            msg = "The 'publish-at' option will publish your video for all audiences. It can not be used with '--privacy=listed'."
+            raise OptionsError(msg)
+        setattr(options, "privacy", "private")
+        debug("Your video will remain private until specified date.")
+
+    """Run the main scripts from the parsed options/args."""
+
+def run_main(parser, options, args, output=sys.stdout):
+    """Run the main scripts from the parsed options/args."""
+    parse_options_error(parser, options)
     youtube = get_youtube_handler(options)
 
     if youtube:
@@ -195,6 +210,8 @@ def main(arguments):
         help='Video tags (separated by commas: "tag1, tag2,...")')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
         default="public", help='Privacy status (public | unlisted | private)')
+    parser.add_option('', '--publish-at', dest='publish_at', metavar="datetime",
+       default=None, help='Publish Date: YYYY-MM-DDThh:mm:ss.sZ')
     parser.add_option('', '--location', dest='location', type="string",
         default=None, metavar="latitude=VAL,longitude=VAL[,altitude=VAL]",
         help='Video location"')
