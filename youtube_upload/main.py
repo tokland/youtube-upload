@@ -102,6 +102,9 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
         description = u(options.description or "").decode("string-escape")
     else:
         description = options.description
+    if options.publish_at:    
+      debug("Your video will remain private until specified date.")
+      
     tags = [u(s.strip()) for s in (options.tags or "").split(",")]
     ns = dict(title=title, n=index+1, total=total_videos)
     title_template = u(options.title_template)
@@ -116,7 +119,7 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
             "tags": tags,
         },
         "status": {
-            "privacyStatus": options.privacy,
+            "privacyStatus": ("private" if options.publish_at else options.privacy),
             "publishAt": options.publish_at,
 
         },
@@ -153,22 +156,13 @@ def get_youtube_handler(options):
         get_code_callback=get_code_callback)
 
 def parse_options_error(parser, options):
+    """Check errors in options."""
     required_options = ["title"]
     missing = [opt for opt in required_options if not getattr(options, opt)]
     if missing:
         parser.print_usage()
         msg = "Some required option are missing: {0}".format(", ".join(missing))
         raise OptionsError(msg)
-    scheduled = getattr(options, "publish_at") != None
-    if scheduled:
-        if getattr(options, "privacy") == "listed":
-            parser.print_usage()
-            msg = "The 'publish-at' option will publish your video for all audiences. It can not be used with '--privacy=listed'."
-            raise OptionsError(msg)
-        setattr(options, "privacy", "private")
-        debug("Your video will remain private until specified date.")
-
-    """Run the main scripts from the parsed options/args."""
 
 def run_main(parser, options, args, output=sys.stdout):
     """Run the main scripts from the parsed options/args."""
