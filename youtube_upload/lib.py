@@ -32,7 +32,7 @@ def debug(obj, fd=sys.stderr):
     except NameError:
         unicode = bytes
     string = str(obj.encode(get_encoding(fd), "backslashreplace")
-                 if isinstance(obj, unicode) else obj)
+                 if not isinstance(obj, unicode) else obj)
     fd.write(string + "\n")
 
 def catch_exceptions(exit_codes, fun, *args, **kwargs):
