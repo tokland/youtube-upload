@@ -44,7 +44,7 @@ def catch_exceptions(exit_codes, fun, *args, **kwargs):
         fun(*args, **kwargs)
         return 0
     except tuple(exit_codes.keys()) as exc:
-        debug("[%s] %s" % (exc.__class__.__name__, exc))
+        debug("[{}] {}".format(exc.__class__.__name__, exc))
         return exit_codes[exc.__class__]
 
 def get_encoding(fd):

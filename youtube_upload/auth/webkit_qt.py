@@ -1,8 +1,3 @@
-try:
-    from PyQt4 import QtCore, QtGui, QtWebKit
-except ImportError:
-    from PySide import QtCore, QtGui, QtWebKit
-    
 CHECK_AUTH_JS = """
     var code = document.getElementById("code");
     var access_denied = document.getElementById("access_denied");
@@ -37,6 +32,10 @@ def _on_qt_page_load_finished(dialog, webview):
    
 def get_code(url, size=(640, 480), title="Google authentication"):
     """Open a QT webkit window and return the access code."""
+    try:
+        from PyQt4 import QtCore, QtGui, QtWebKit
+    except ImportError:
+        from PySide import QtCore, QtGui, QtWebKit
     app = QtGui.QApplication([])
     dialog = QtGui.QDialog()
     dialog.setWindowTitle(title)
