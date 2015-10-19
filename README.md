@@ -44,9 +44,9 @@ The package includes a default ```client_secrets.json``` file. If you plan to ma
 * Side menu: _APIs & auth_ -> _APIs_
 * Top menu: _Enabled API(s)_: Enable all Youtube APIs.
 * Side menu: _APIs & auth_ -> _Credentials_.
-* _Create new Client ID_: Application type: _Installed application_ + _Other_
-* _Download JSON_: save the file to your local system. 
-* Use the saved JSON as your credentials file: ```--client-secrets=CLIENT_SECRETS```
+* _Create a Client ID_: Add credentials -> OAuth 2.0 Client ID -> Other -> Name: youtube-upload -> Create -> OK
+* _Download JSON_: Under the section "OAuth 2.0 client IDs". Save the file to your local system. 
+* Use this JSON as your credentials file: ```--client-secrets=CLIENT_SECRETS```
 
 Examples
 ========
