@@ -22,6 +22,7 @@ import collections
 import webbrowser
 
 import apiclient.errors
+import googleapiclient.errors
 import oauth2client
 
 from . import auth
@@ -132,8 +133,6 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
     try:
         video_id = upload_video.upload(youtube, video_path, 
             request_body, progress_callback=progress.callback)
-    except apiclient.errors.HttpError as error:
-        raise RequestError("Server response: {0}".format(error.content.strip()))
     finally:
         progress.finish()
     return video_id
@@ -230,7 +229,10 @@ def main(arguments):
         help='Opens a url in a web browser to display uploaded videos')
 
     options, args = parser.parse_args(arguments)
-    run_main(parser, options, args)
+    try:
+        run_main(parser, options, args)
+    except (apiclient.errors.HttpError, googleapiclient.errors.HttpError) as error:
+        raise RequestError("Server response: {0}".format(error.content.strip()))
 
 def run():
     sys.exit(lib.catch_exceptions(EXIT_CODES, main, sys.argv[1:]))
