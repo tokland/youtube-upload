@@ -180,7 +180,7 @@ def run_main(parser, options, args, output=sys.stdout):
                 youtube.thumbnails().set(videoId=video_id, media_body=options.thumb).execute()
             if options.playlist:
                 playlists.add_video_to_playlist(youtube, video_id, 
-                    title=options.playlist, privacy=options.privacy)
+                    title=lib.to_utf8(options.playlist), privacy=options.privacy)
             output.write(video_id + "\n")
     else:
         raise AuthenticationError("Cannot get youtube resource")
