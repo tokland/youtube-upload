@@ -126,6 +126,7 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
         },
         "recordingDetails": {
             "location": lib.string_to_dict(options.location),
+            "recordingDate": options.recording_date,
         },
     }
 
@@ -204,16 +205,18 @@ def main(arguments):
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
         default="public", help='Privacy status (public | unlisted | private)')
     parser.add_option('', '--publish-at', dest='publish_at', metavar="datetime",
-       default=None, help='Publish Date: YYYY-MM-DDThh:mm:ss.sZ')
+       default=None, help='Publish date (ISO 8601): YYYY-MM-DDThh:mm:ss.sZ')
     parser.add_option('', '--location', dest='location', type="string",
         default=None, metavar="latitude=VAL,longitude=VAL[,altitude=VAL]",
         help='Video location"')
+    parser.add_option('', '--recording-date', dest='recording_date', metavar="datetime",
+        default=None, help="Recording date (ISO 8601): YYYY-MM-DDThh:mm:ss.sZ")
     parser.add_option('', '--thumbnail', dest='thumb', type="string",
         help='Video thumbnail')
     parser.add_option('', '--playlist', dest='playlist', type="string",
         help='Playlist title (if it does not exist, it will be created)')
     parser.add_option('', '--title-template', dest='title_template',
-        type="string", default="{title} [{n}/{total}]", metavar="STRING",
+        type="string", default="{title} [{n}/{total}]", metavar="string",
         help='Template for multiple videos (default: {title} [{n}/{total}])')
 
     # Authentication
