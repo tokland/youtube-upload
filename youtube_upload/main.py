@@ -21,7 +21,6 @@ import optparse
 import collections
 import webbrowser
 
-import apiclient.errors
 import googleapiclient.errors
 import oauth2client
 
@@ -229,12 +228,12 @@ def main(arguments):
 
     #Additional options
     parser.add_option('', '--open-link', dest='open_link', action='store_true',
-        help='Opens a url in a web browser to display uploaded videos')
+        help='Opens a url in a web browser to display the uploaded video')
 
     options, args = parser.parse_args(arguments)
     try:
         run_main(parser, options, args)
-    except (apiclient.errors.HttpError, googleapiclient.errors.HttpError) as error:
+    except googleapiclient.errors.HttpError as error:
         raise RequestError("Server response: {0}".format(error.content.strip()))
 
 def run():
