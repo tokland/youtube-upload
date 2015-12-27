@@ -73,7 +73,10 @@ def get_progress_info():
         bar = progressbar.ProgressBar(widgets=widgets)
         def _callback(total_size, completed):
             if not hasattr(bar, "next_update"):
-                bar.maxval = total_size
+                if hasattr(bar, "maxval"):
+                    bar.maxval = total_size
+                else:
+                    bar.max_value = total_size
                 bar.start()
             bar.update(completed)
         def _finish():
@@ -81,7 +84,7 @@ def get_progress_info():
                 return bar.finish()
         return progressinfo(callback=_callback, finish=_finish)
     else:
-        return progressinfo(callback=None, finish=lambda: True)
+        return progressinfo(callback=lambda: None, finish=lambda: True)
 
 def get_category_id(category):
     """Return category ID from its name."""
