@@ -29,10 +29,14 @@ def debug(obj, fd=sys.stderr):
     """Write obj to standard error."""
     try:
         unicode
+        should_encode = not isinstance(obj, unicode)
     except NameError:
-        unicode = bytes
+        should_encode = False #Doing so is harmless in Python 3
     string = str(obj.encode(get_encoding(fd), "backslashreplace")
-                 if not isinstance(obj, unicode) else obj)
+                 if should_encode else obj)
+    #Python 3 handling workaround
+    if sys.version_info >= (3, 0) and isinstance(string, bytes):
+        fd.buffer.write(string + "\n") #We write the encoding directly
     fd.write(string + "\n")
 
 def catch_exceptions(exit_codes, fun, *args, **kwargs):
