@@ -37,7 +37,8 @@ def debug(obj, fd=sys.stderr):
     #Python 3 handling workaround
     if sys.version_info >= (3, 0) and isinstance(string, bytes):
         fd.buffer.write(string + "\n") #We write the encoding directly
-    fd.write(string + "\n")
+    else:
+        fd.write(string + "\n")
 
 def catch_exceptions(exit_codes, fun, *args, **kwargs):
     """
