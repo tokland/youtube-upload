@@ -119,6 +119,9 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
             "description": description,
             "categoryId": category_id,
             "tags": tags,
+            "defaultLanguage": options.default_language,
+            "defaultAudioLanguage": options.default_audio_language,
+
         },
         "status": {
             "privacyStatus": ("private" if options.publish_at else options.privacy),
@@ -212,6 +215,10 @@ def main(arguments):
         help='Video location"')
     parser.add_option('', '--recording-date', dest='recording_date', metavar="datetime",
         default=None, help="Recording date (ISO 8601): YYYY-MM-DDThh:mm:ss.sZ")
+    parser.add_option('', '--default-language', dest='default_language', type="string",
+        default=None, metavar="string", help="Default language (en | fr | de ...)")
+    parser.add_option('', '--default-audio-language', dest='default_audio_language', type="string",
+        default=None, metavar="string", help="Default audio language (en | fr | de ...)")
     parser.add_option('', '--thumbnail', dest='thumb', type="string",
         help='Video thumbnail')
     parser.add_option('', '--playlist', dest='playlist', type="string",
