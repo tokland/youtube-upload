@@ -7,7 +7,7 @@ setup_kwargs = {
     "version": "0.8.0",
     "description": "Upload videos to Youtube",
     "author": "Arnau Sanchez",
-    "author_email": "tokland@gmail.com",
+    "author_email": "pyarnau@gmail.com",
     "url": "https://github.com/tokland/youtube-upload",
     "packages": ["youtube_upload/", "youtube_upload/auth"],
     "data_files": [("share/youtube_upload", ['client_secrets.json'])],
