@@ -216,9 +216,11 @@ def main(arguments):
     parser.add_option('', '--recording-date', dest='recording_date', metavar="datetime",
         default=None, help="Recording date (ISO 8601): YYYY-MM-DDThh:mm:ss.sZ")
     parser.add_option('', '--default-language', dest='default_language', type="string",
-        default=None, metavar="string", help="Default language (en | fr | de ...)")
+        default=None, metavar="string", 
+        help="Default language (ISO 639-1: en | fr | de | ...)")
     parser.add_option('', '--default-audio-language', dest='default_audio_language', type="string",
-        default=None, metavar="string", help="Default audio language (en | fr | de ...)")
+        default=None, metavar="string", 
+        help="Default audio language (ISO 639-1: en | fr | de | ...)")
     parser.add_option('', '--thumbnail', dest='thumb', type="string",
         help='Video thumbnail')
     parser.add_option('', '--playlist', dest='playlist', type="string",
