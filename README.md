@@ -7,12 +7,12 @@ Dependencies
 ============
 
   * [Python 2.6/2.7/3.x](http://www.python.org).
-  * Packages: [google-api-python-client](https://developers.google.com/api-client-library/python), [progressbar](https://pypi.python.org/pypi/progressbar) (optional).
+  * Packages: [google-api-python-client](https://developers.google.com/api-client-library/python), [progressbar2](https://pypi.python.org/pypi/progressbar2) (optional).
 
-Check if your operating system provides those packages. On Debian GNU/Linux, they are available as `python-googleapi` and `python-progressbar`. If not, you can install them with `pip`:
+Check if your operating system provides those packages, otherwise install them with `pip`:
 
 ```
-$ pip install --upgrade google-api-python-client progressbar
+$ pip install --upgrade google-api-python-client progressbar2
 ```
 
 Install
