@@ -1,3 +1,4 @@
+from __future__ import print_function
 import os
 import sys
 import locale
@@ -27,18 +28,7 @@ def to_utf8(s):
        
 def debug(obj, fd=sys.stderr):
     """Write obj to standard error."""
-    try:
-        unicode
-        should_encode = not isinstance(obj, unicode)
-    except NameError:
-        should_encode = False #Doing so is harmless in Python 3
-    string = str(obj.encode(get_encoding(fd), "backslashreplace")
-                 if should_encode else obj)
-    #Python 3 handling workaround
-    if sys.version_info >= (3, 0) and isinstance(string, bytes):
-        fd.buffer.write(string + "\n") #We write the encoding directly
-    else:
-        fd.write(string + "\n")
+    print(obj, file=fd)
 
 def catch_exceptions(exit_codes, fun, *args, **kwargs):
     """
