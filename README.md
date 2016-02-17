@@ -9,7 +9,7 @@ Dependencies
   * [Python 2.6/2.7/3.x](http://www.python.org).
   * Packages: [google-api-python-client](https://developers.google.com/api-client-library/python), [progressbar2](https://pypi.python.org/pypi/progressbar2) (optional).
 
-Check if your operating system provides those packages, otherwise install them with `pip`:
+Check if your operating system provides those packages (check also those [deb/rpm/mac files](https://github.com/qiuwei/youtube-upload/releases)), otherwise install them with `pip`:
 
 ```
 $ pip install --upgrade google-api-python-client progressbar2
