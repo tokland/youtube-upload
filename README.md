@@ -75,6 +75,13 @@ $ youtube-upload \
   anne_sophie_mutter.flv
 tx2Zb-145Yz
 ```
+*Other extra medata available :* 
+ ```
+ --privacy (public | unlisted | private)  
+ --publish-at (YYYY-MM-DDThh:mm:ss.sZ)  
+ --location (latitude=VAL,longitude=VAL[,altitude=VAL])  
+ --thumbnail (string)  
+ ```
 
 * Upload a video using a browser GUI to authenticate:
 
