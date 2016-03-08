@@ -8,7 +8,7 @@ def get_playlist(youtube, title):
         results = request.execute()
         for item in results["items"]:
             existing_playlist_title = item.get("snippet", {}).get("title")
-            if existing_playlist_title.encode("utf8") == title:
+            if existing_playlist_title.encode("utf8") == title.encode("utf-8"):
                 return item.get("id")
         request = playlists.list_next(request, results)
 
