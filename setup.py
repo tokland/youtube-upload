@@ -24,6 +24,11 @@ setup_kwargs = {
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
     ],
+    "entry_points": {
+        'console_scripts': [
+            'youtube-upload = youtube_upload.cmdline:cmdline_main'
+        ],
+    }
 }
 
 setup(**setup_kwargs)
