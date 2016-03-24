@@ -26,7 +26,7 @@ setup_kwargs = {
     ],
     "entry_points": {
         'console_scripts': [
-            'youtube-upload = youtube_upload.cmdline:cmdline_main'
+            'youtube-upload = youtube_upload.main:run'
         ],
     }
 }
