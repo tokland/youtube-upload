@@ -1,3 +1,5 @@
+import socket
+
 try:
     import httplib
 except ImportError:
@@ -10,7 +12,7 @@ import httplib2
 from . import lib
 
 RETRIABLE_EXCEPTIONS = [
-    IOError, httplib2.HttpLib2Error, httplib.NotConnected,
+    socket.error, IOError, httplib2.HttpLib2Error, httplib.NotConnected,
     httplib.IncompleteRead, httplib.ImproperConnectionState,
     httplib.CannotSendRequest, httplib.CannotSendHeader,
     httplib.ResponseNotReady, httplib.BadStatusLine,
