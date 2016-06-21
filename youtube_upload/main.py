@@ -67,7 +67,6 @@ def get_progress_info():
         bar = progressbar.ProgressBar(widgets=[
             progressbar.Percentage(), ' ',
             progressbar.Bar(), ' ',
-            progressbar.ETA(), ' ',
             progressbar.FileTransferSpeed(),
         ])
         def _callback(total_size, completed):
