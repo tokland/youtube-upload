@@ -7,9 +7,9 @@ setup_kwargs = {
     "version": "0.8.0",
     "description": "Upload videos to Youtube",
     "author": "Arnau Sanchez",
-    "author_email": "tokland@gmail.com",
-    "url": "http://code.google.com/p/youtube-upload/",
-    "packages": ["youtube_upload/"],
+    "author_email": "pyarnau@gmail.com",
+    "url": "https://github.com/tokland/youtube-upload",
+    "packages": ["youtube_upload/", "youtube_upload/auth"],
     "data_files": [("share/youtube_upload", ['client_secrets.json'])],
     "scripts": ["bin/youtube-upload"],
     "license": "GNU Public License v3.0",
@@ -24,6 +24,15 @@ setup_kwargs = {
         'Programming Language :: Python',
         'Topic :: Internet :: WWW/HTTP',
     ],
+    "entry_points": {
+        'console_scripts': [
+            'youtube-upload = youtube_upload.main:run'
+        ],
+    },
+    "install_requires":[
+        'google-api-python-client',
+        'progressbar2'
+    ]
 }
 
 setup(**setup_kwargs)

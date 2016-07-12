@@ -4,13 +4,13 @@ import json
 
 import googleapiclient.discovery
 import oauth2client
-import httplib2
+import httplib2 
 
 from youtube_upload import lib
 from youtube_upload.auth import console
 from youtube_upload.auth import browser
 
-YOUTUBE_UPLOAD_SCOPE = "https://www.googleapis.com/auth/youtube.upload"
+YOUTUBE_UPLOAD_SCOPE = ["https://www.googleapis.com/auth/youtube.upload", "https://www.googleapis.com/auth/youtube"]
 
 def _get_credentials_interactively(flow, storage, get_code_callback):
     """Return the credentials asking the user."""

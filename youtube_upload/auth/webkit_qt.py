@@ -1,5 +1,3 @@
-from PyQt4 import QtCore, QtGui, QtWebKit
-
 CHECK_AUTH_JS = """
     var code = document.getElementById("code");
     var access_denied = document.getElementById("access_denied");
@@ -16,17 +14,28 @@ CHECK_AUTH_JS = """
 """
 
 def _on_qt_page_load_finished(dialog, webview):
-    to_s = lambda x: (str(x.toUtf8()) if isinstance(x, QtCore.QString) else x)
+    to_s = lambda x: (str(x.toUtf8()) if hasattr(x,'toUtf8') else x)
     frame = webview.page().currentFrame()
-    jscode = QtCore.QString(CHECK_AUTH_JS)
+    try: #PySide does not QStrings
+        from QtCore import QString
+        jscode = QString(CHECK_AUTH_JS)
+    except ImportError:
+        jscode = CHECK_AUTH_JS
     res = frame.evaluateJavaScript(jscode)
-    authorization = dict((to_s(k), to_s(v)) for (k, v) in res.toPyObject().items())
-    if authorization.has_key("authorized"):
+    try:
+        authorization = dict((to_s(k), to_s(v)) for (k, v) in res.toPyObject().items())
+    except AttributeError: #PySide returns the result in pure Python
+        authorization = dict((to_s(k), to_s(v)) for (k, v) in res.items())
+    if "authorized" in authorization:
         dialog.authorization_code = authorization.get("code")
         dialog.close()
    
 def get_code(url, size=(640, 480), title="Google authentication"):
     """Open a QT webkit window and return the access code."""
+    try:
+        from PyQt4 import QtCore, QtGui, QtWebKit
+    except ImportError:
+        from PySide import QtCore, QtGui, QtWebKit
     app = QtGui.QApplication([])
     dialog = QtGui.QDialog()
     dialog.setWindowTitle(title)
