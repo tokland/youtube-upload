@@ -1,3 +1,5 @@
+*NEW: Check my new project [shoogle](https://github.com/tokland/shoogle) for an alternative way of uploading videos to Youtube.*
+
 Introduction
 ============
 
