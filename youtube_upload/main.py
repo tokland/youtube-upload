@@ -220,8 +220,8 @@ def main(arguments):
     parser.add_option('', '--default-audio-language', dest='default_audio_language', type="string",
         default=None, metavar="string", 
         help="Default audio language (ISO 639-1: en | fr | de | ...)")
-    parser.add_option('', '--thumbnail', dest='thumb', type="string",
-        help='Video thumbnail')
+    parser.add_option('', '--thumbnail', dest='thumb', type="string", metavar="FILE", 
+        help='Image file to use as video thumbnail (JPEG or PNG)')
     parser.add_option('', '--playlist', dest='playlist', type="string",
         help='Playlist title (if it does not exist, it will be created)')
     parser.add_option('', '--title-template', dest='title_template',
