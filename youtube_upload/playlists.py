@@ -1,14 +1,19 @@
+import locale
+
 from .lib import debug
 
 def get_playlist(youtube, title):
     """Return users's playlist ID by title (None if not found)"""
     playlists = youtube.playlists()
     request = playlists.list(mine=True, part="id,snippet")
+    current_encoding = locale.getpreferredencoding()
+    
     while request:
         results = request.execute()
         for item in results["items"]:
-            existing_playlist_title = item.get("snippet", {}).get("title")
-            if existing_playlist_title.encode("utf8") == title.encode("utf-8"):
+            t = item.get("snippet", {}).get("title")
+            existing_playlist_title = (t.encode(current_encoding) if hasattr(t, 'decode') else t)
+            if existing_playlist_title == title:
                 return item.get("id")
         request = playlists.list_next(request, results)
 
