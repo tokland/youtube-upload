@@ -37,7 +37,7 @@ EXIT_CODES = {
 
 WATCH_VIDEO_URL = "https://www.youtube.com/watch?v={id}"
 
-def main(arguments):
+def cli(arguments):
     """Upload videos to Youtube."""
     usage = """Usage: %prog [OPTIONS] VIDEO
 
@@ -75,28 +75,29 @@ def main(arguments):
 
     # Authentication
     parser.add_argument('--client-secrets', dest='client_secrets',
-        type=str, help='Client secrets JSON file')
+        type=str, help='Client secrets JSON path file')
     parser.add_argument('--credentials-file', dest='credentials_file',
-        type=str, help='Credentials JSON file')
+        type=str, help='Credentials JSON path file')
     parser.add_argument('--auth-browser', dest='auth_browser', action='store_true',
         help='Open a GUI browser to authenticate if required')
 
     #Additional options
     parser.add_argument('--open-link', dest='open_link', action='store_true',
-        help='Opens a url in a web browser to display the uploaded video')
+        help='Opens video URL in a web browser')
 
     # Positional arguments
     parser.add_argument('video_path', metavar="VIDEO PATH", type=str,
         help="Video to upload (local path)")
-
+  
     options = parser.parse_args(arguments)
-    video_id = upload.upload(options.video_path, options)
+    resource = upload.get_resource(options)
+    video_id = upload.upload_video(resource, options.video_path, options)
     video_url = WATCH_VIDEO_URL.format(id=video_id)
     lib.debug("Video URL: {0}".format(video_url))
     sys.stdout.write(video_id + "\n")
 
 def run():
-    sys.exit(lib.catch_exceptions(EXIT_CODES, main, sys.argv[1:]))
+    sys.exit(lib.catch_exceptions(EXIT_CODES, cli, sys.argv[1:]))
   
 if __name__ == '__main__':
     run()

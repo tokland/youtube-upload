@@ -63,6 +63,18 @@ def get_first_existing_filename(prefixes, relative_path):
         if os.path.exists(path):
             return path
 
+def remove_empty_fields_recursively(dct):
+    """Remove empty (non true) values from a dict recursing dict-values."""
+    output = {}
+    for key, value in dct.items():
+        if isinstance(value, dict):
+            new_value = remove_empty_fields_recursively(value)
+            if new_value:
+                output[key] = new_value 
+        elif value:
+            output[key] = value
+    return output
+
 def retriable_exceptions(fun, retriable_exceptions, max_retries=None):
     """Run function and retry on some exceptions (with exponential backoff)."""
     retry = 0
