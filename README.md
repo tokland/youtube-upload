@@ -111,6 +111,26 @@ $ export https_proxy=$http_proxy
 $ youtube-upload ....
 ```
 
+Get available categories
+========================
+
+* Go to the [API Explorer](https://developers.google.com/apis-explorer)
+- Search "youtube categories" -> *youtube.videoCategories.list*
+- This bring you to [youtube.videoCategories.list service](https://developers.google.com/apis-explorer/#search/youtube%20categories/m/youtube/v3/youtube.videoCategories.list)
+- part: `id,snippet`
+- regionCode: `es` (2 letter code of your country)
+- _Authorize and execute_
+
+And see the JSON response below. Note that categories with the attribute `assignable` equal to `false` cannot be used.
+
+Using `shoogle`:
+
+```
+$ shoogle execute --client-secret-file client_secret.json \
+                  youtube:v3.videoCategories.list <(echo '{"part": "id,snippet", "regionCode": "es"}')  | 
+    jq ".items[] | select(.snippet.assignable) | {id: .id, title: .snippet.title}"
+```
+
 Notes for developers
 ====================
 
