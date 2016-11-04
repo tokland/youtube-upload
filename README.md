@@ -139,7 +139,7 @@ Notes for developers
 Alternatives
 ============
 
-* [shoogle](https://github.com/tokland/shoogle) is a wrapper to send requests to any Google API service, so it can be used to not only upload videos, but to perform any operation regarding the Youtube API.
+* [shoogle](https://github.com/tokland/shoogle) can send requests to any Google API service, so it can be used not only to upload videos, but also to perform any operation regarding the Youtube API.
 
 * [youtubeuploader](https://github.com/porjo/youtubeuploader) uploads videos to Youtube from local disk or from the web. It also provides rate-limited uploads.
 
