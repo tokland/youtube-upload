@@ -1,5 +1,3 @@
-*NEW: Check my new project [shoogle](https://github.com/tokland/shoogle) for an alternative way of uploading videos to Youtube.*
-
 Introduction
 ============
 
@@ -137,6 +135,13 @@ Notes for developers
 * Main logic of the upload: [main.py](youtube_upload/main.py) (function ```upload_video```).
 * Check the [Youtube Data API](https://developers.google.com/youtube/v3/docs/).
 * Some Youtube API [examples](https://github.com/youtube/api-samples/tree/master/python) provided by Google.
+
+Alternatives
+============
+
+* [shoogle](https://github.com/tokland/shoogle) is a wrapper to send requests to any Google API service, so it can be used to not only upload videos, but to perform any operation regarding the Youtube API.
+
+* [youtubeuploader](https://github.com/porjo/youtubeuploader) uploads videos to Youtube from local disk or from the web. It also provides rate-limited uploads.
 
 More
 ====
