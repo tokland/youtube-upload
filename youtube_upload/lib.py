@@ -16,6 +16,9 @@ def default_sigint():
     finally:
         signal.signal(signal.SIGINT, original_sigint_handler)
         
+def get_encoding():
+    return locale.getpreferredencoding()
+    
 def to_utf8(s):
     """Re-encode string from the default system encoding to UTF-8."""
     current = locale.getpreferredencoding()
@@ -41,10 +44,6 @@ def catch_exceptions(exit_codes, fun, *args, **kwargs):
     except tuple(exit_codes.keys()) as exc:
         debug("[{0}] {1}".format(exc.__class__.__name__, exc))
         return exit_codes[exc.__class__]
-
-def get_encoding(fd):
-    """Guess terminal encoding."""
-    return fd.encoding or locale.getpreferredencoding()
 
 def first(it):
     """Return first element in iterable."""
