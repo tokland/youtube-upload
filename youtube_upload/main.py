@@ -186,6 +186,9 @@ def run_main(parser, options, args, output=sys.stdout):
                 playlists.add_video_to_playlist(youtube, video_id, 
                     title=lib.to_utf8(options.playlist), privacy=options.privacy)
             output.write(video_id + "\n")
+            if options.run_after_load:
+                output.write("Run script with video id as arg "+video_id + "\n")
+                os.system(options.run_after_load+" "+video_id)
     else:
         raise AuthenticationError("Cannot get youtube resource")
 
@@ -235,6 +238,9 @@ def main(arguments):
         type="string", help='Credentials JSON file')
     parser.add_option('', '--auth-browser', dest='auth_browser', action='store_true',
         help='Open a GUI browser to authenticate if required')
+    #After load
+    parser.add_option('', '--run-after-load', dest='run_after_load', type="string",
+        help='Run script after load')
 
     #Additional options
     parser.add_option('', '--open-link', dest='open_link', action='store_true',
