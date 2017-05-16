@@ -136,7 +136,8 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
     debug("Start upload: {0}".format(video_path))
     try:
         video_id = upload_video.upload(youtube, video_path, 
-            request_body, progress_callback=progress.callback)
+            request_body, progress_callback=progress.callback, 
+            chunksize=options.chunksize)
     finally:
         progress.finish()
     return video_id
@@ -237,6 +238,8 @@ def main(arguments):
         help='Open a GUI browser to authenticate if required')
 
     #Additional options
+    parser.add_option('', '--chunksize', dest='chunksize', type="int", 
+        default = 1024*1024*8, help='Update file chunksize')
     parser.add_option('', '--open-link', dest='open_link', action='store_true',
         help='Opens a url in a web browser to display the uploaded video')
 
