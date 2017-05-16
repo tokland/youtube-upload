@@ -204,6 +204,8 @@ def main(arguments):
         help='Video category')
     parser.add_option('-d', '--description', dest='description', type="string",
         help='Video description')
+    parser.add_option('', '--description-file', dest='description_file', type="string", 
+        help='Video description file', default=None)
     parser.add_option('', '--tags', dest='tags', type="string",
         help='Video tags (separated by commas: "tag1, tag2,...")')
     parser.add_option('', '--privacy', dest='privacy', metavar="STRING",
@@ -244,6 +246,11 @@ def main(arguments):
         help='Opens a url in a web browser to display the uploaded video')
 
     options, args = parser.parse_args(arguments)
+    
+    if options.description_file is not None and os.path.exists(options.description_file):
+        with open(options.description_file, encoding="utf-8") as file:
+            options.description = file.read()
+
     try:
         run_main(parser, options, args)
     except googleapiclient.errors.HttpError as error:
