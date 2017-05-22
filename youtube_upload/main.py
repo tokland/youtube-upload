@@ -197,6 +197,8 @@ def main(arguments):
     Upload videos to Youtube."""
     parser = optparse.OptionParser(usage)
 
+    sys.setdefaultencoding('utf8')
+    
     # Video metadata
     parser.add_option('-t', '--title', dest='title', type="string",
         help='Video title')
