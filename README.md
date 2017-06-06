@@ -48,6 +48,8 @@ The package includes a default ```client_secrets.json``` file. If you plan to ma
 * _Download JSON_: Under the section "OAuth 2.0 client IDs". Save the file to your local system. 
 * Use this JSON as your credentials file: ```--client-secrets=CLIENT_SECRETS```
 
+*Note: ```client_secrets.json``` is a file you can download from the developer console, the credentials file is something auto generated after the first time the script is run and the google account sign in is followed, the file is stored at ```~/.youtube-upload-credentials.json```.*
+
 Examples
 ========
 
@@ -62,7 +64,7 @@ pxzZ-fYjeYs
 
 ```
 $ youtube-upload \
-  --title="A.S. Mutter" 
+  --title="A.S. Mutter" " \
   --description="A.S. Mutter plays Beethoven" \
   --category=Music \
   --tags="mutter, beethoven" \
