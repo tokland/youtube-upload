@@ -19,7 +19,7 @@ IDS = {
     "Gaming": 20,
     "Videoblogging": 21,
     "People & Blogs": 22,
-    "Comedy": 34,
+    "Comedy": 23,
     "Entertainment": 24,
     "News & Politics": 25,
     "Howto & Style": 26,
