@@ -20,6 +20,8 @@ import sys
 import optparse
 import collections
 import webbrowser
+import io
+import shutil
 
 import googleapiclient.errors
 import oauth2client
@@ -248,7 +250,7 @@ def main(arguments):
     options, args = parser.parse_args(arguments)
     
     if options.description_file is not None and os.path.exists(options.description_file):
-        with open(options.description_file, encoding="utf-8") as file:
+        with io.open(options.description_file, encoding="utf-8") as file:
             options.description = file.read()
 
     try:
