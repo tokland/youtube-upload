@@ -12,7 +12,7 @@ Dependencies
 Check if your operating system provides those packages (check also those [deb/rpm/mac files](https://github.com/qiuwei/youtube-upload/releases)), otherwise install them with `pip`:
 
 ```
-$ sudo pip install --upgrade google-api-python-client progressbar2
+$ sudo pip install --upgrade google-api-python-client oauth2client progressbar2
 ```
 
 Install
