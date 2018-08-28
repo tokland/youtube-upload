@@ -1,3 +1,9 @@
+
+Fork
+============
+Fork from https://github.com/tokland/youtube-upload
+
+
 Introduction
 ============
 
@@ -127,6 +133,18 @@ Using `shoogle`:
 $ shoogle execute --client-secret-file client_secret.json \
                   youtube:v3.videoCategories.list <(echo '{"part": "id,snippet", "regionCode": "es"}')  | 
     jq ".items[] | select(.snippet.assignable) | {id: .id, title: .snippet.title}"
+```
+
+Docker
+========
+
+* Docker run with credentials file:
+
+```
+docker run --rm \
+-v ~/.youtube-upload-credentials.json:/home/python/.youtube-upload-credentials.json \
+-v ~/.client_secrets.json:/usr/local/share/youtube_upload/client_secrets.json \
+-v ~/videos:/videos bios/youtube-upload --title="Timelapse Demo" --privacy=unlisted /videos/demovideo.mp4
 ```
 
 Notes for developers
