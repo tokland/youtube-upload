@@ -1,7 +1,7 @@
 Introduction
 ============
 
-_Youtube-upload_ is a command line Python script that uploads videos to Youtube (it should work on any platform -GNU/Linux, BSD, OS X, Windows, ...- that runs Python) using theYoutube [APIv3](https://developers.google.com/youtube/v3/).
+Command-line script to upload videos to Youtube using theYoutube [APIv3](https://developers.google.com/youtube/v3/). It should work on any platform (GNU/Linux, BSD, OS X, Windows, ...) that runs Python.
 
 Dependencies
 ============
@@ -25,7 +25,7 @@ $ cd youtube-upload-master
 $ sudo python setup.py install
 ```
 
-  * Or run directly from sources:
+Or run directly from sources:
 
 ```
 $ cd youtube-upload-master
@@ -51,7 +51,7 @@ The package used to include a default ```client_secrets.json``` file. It does no
 Examples
 ========
 
-* Upload a video:
+* Upload a video (a valid `~/.client_secrets.json` should exist, check the Setup section):
 
 ```
 $ youtube-upload --title="A.S. Mutter" anne_sophie_mutter.flv
@@ -121,7 +121,7 @@ Get available categories
 
 And see the JSON response below. Note that categories with the attribute `assignable` equal to `false` cannot be used.
 
-Using `shoogle`:
+Using [shoogle](https://github.com/tokland/shoogle):
 
 ```
 $ shoogle execute --client-secret-file client_secret.json \
