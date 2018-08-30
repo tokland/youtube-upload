@@ -32,8 +32,8 @@ $ cd youtube-upload-master
 $ PYTHONPATH=. python bin/youtube-upload ...
 ```
 
-Authentication
-==============
+Setup
+=====
 
 You'll see that there is no email/password options. Instead, the Youtube API uses [OAuth 2.0](https://developers.google.com/accounts/docs/OAuth2) to authenticate the upload. The first time you try to upload a video, you will be asked to follow a URL in your browser to get an authentication token. If you have multiple channels for the logged in user, you will also be asked to pick which one you want to upload the videos to. You can use multiple credentials, just use the option ```--credentials-file```. Also, check the [token expiration](https://developers.google.com/youtube/v3/) policies.
 
@@ -46,7 +46,7 @@ The package used to include a default ```client_secrets.json``` file. It does no
 * Side menu: _APIs & auth_ -> _Credentials_.
 * _Create a Client ID_: Add credentials -> OAuth 2.0 Client ID -> Other -> Name: youtube-upload -> Create -> OK
 * _Download JSON_: Under the section "OAuth 2.0 client IDs". Save the file to your local system. 
-* Use this JSON as your credentials file: ```--client-secrets=CLIENT_SECRETS```
+* Use this JSON as your credentials file: `--client-secrets=CLIENT_SECRETS` or copy it to `~/client_secrets.json`.
 
 Examples
 ========
