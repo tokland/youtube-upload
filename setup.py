@@ -10,7 +10,6 @@ setup_kwargs = {
     "author_email": "pyarnau@gmail.com",
     "url": "https://github.com/tokland/youtube-upload",
     "packages": ["youtube_upload/", "youtube_upload/auth"],
-    "data_files": [("share/youtube_upload", ['client_secrets.json'])],
     "scripts": ["bin/youtube-upload"],
     "license": "GNU Public License v3.0",
     "long_description": " ".join(__doc__.strip().splitlines()),
