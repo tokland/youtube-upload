@@ -66,9 +66,12 @@ def get_progress_info():
 
     if progressbar:
         bar = progressbar.ProgressBar(widgets=[
-            progressbar.Percentage(), ' ',
-            progressbar.Bar(), ' ',
-            progressbar.FileTransferSpeed(),
+            progressbar.Percentage(),
+            ' ', progressbar.Bar(),
+            ' ', progressbar.FileTransferSpeed(),
+            ' ', progressbar.DataSize(), '/', progressbar.DataSize('max_value'),
+            ' ', progressbar.Timer(),
+            ' ', progressbar.AdaptiveETA(),
         ])
         def _callback(total_size, completed):
             if not hasattr(bar, "next_update"):
