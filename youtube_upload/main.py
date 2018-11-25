@@ -20,6 +20,7 @@ import sys
 import optparse
 import collections
 import webbrowser
+from io import open
 
 import googleapiclient.errors
 import oauth2client
@@ -123,8 +124,10 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
 
         },
         "status": {
+            "embeddable": options.embeddable,
             "privacyStatus": ("private" if options.publish_at else options.privacy),
             "publishAt": options.publish_at,
+            "license": options.license,
 
         },
         "recordingDetails": {
@@ -145,12 +148,8 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
 def get_youtube_handler(options):
     """Return the API Youtube object."""
     home = os.path.expanduser("~")
-    default_client_secrets = lib.get_first_existing_filename(
-        [sys.prefix, os.path.join(sys.prefix, "local")],
-        "share/youtube_upload/client_secrets.json")
     default_credentials = os.path.join(home, ".youtube-upload-credentials.json")
-    client_secrets = options.client_secrets or default_client_secrets or \
-        os.path.join(home, ".client_secrets.json")
+    client_secrets = options.client_secrets or os.path.join(home, ".client_secrets.json")
     credentials = options.credentials_file or default_credentials
     debug("Using client secrets: {0}".format(client_secrets))
     debug("Using credentials file: {0}".format(credentials))
@@ -212,6 +211,9 @@ def main(arguments):
         default="public", help='Privacy status (public | unlisted | private)')
     parser.add_option('', '--publish-at', dest='publish_at', metavar="datetime",
        default=None, help='Publish date (ISO 8601): YYYY-MM-DDThh:mm:ss.sZ')
+    parser.add_option('', '--license', dest='license', metavar="string",
+       choices=('youtube', 'creativeCommon'), default='youtube',
+       help='License for the video, either "youtube" (the default) or "creativeCommon"')
     parser.add_option('', '--location', dest='location', type="string",
         default=None, metavar="latitude=VAL,longitude=VAL[,altitude=VAL]",
         help='Video location"')
@@ -230,6 +232,8 @@ def main(arguments):
     parser.add_option('', '--title-template', dest='title_template',
         type="string", default="{title} [{n}/{total}]", metavar="string",
         help='Template for multiple videos (default: {title} [{n}/{total}])')
+    parser.add_option('', '--embeddable', dest='embeddable', default=True,
+        help='Video is embeddable')
 
     # Authentication
     parser.add_option('', '--client-secrets', dest='client_secrets',
@@ -255,7 +259,7 @@ def main(arguments):
         run_main(parser, options, args)
     except googleapiclient.errors.HttpError as error:
         response = bytes.decode(error.content, encoding=lib.get_encoding()).strip()
-        raise RequestError("Server response: {0}".format(response))
+        raise RequestError(u"Server response: {0}".format(response))
 
 def run():
     sys.exit(lib.catch_exceptions(EXIT_CODES, main, sys.argv[1:]))
