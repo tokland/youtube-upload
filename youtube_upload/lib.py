@@ -7,6 +7,8 @@ import time
 import signal
 from contextlib import contextmanager
 
+import googleapiclient.errors
+
 @contextmanager
 def default_sigint():
     original_sigint_handler = signal.getsignal(signal.SIGINT)
@@ -71,6 +73,9 @@ def retriable_exceptions(fun, retriable_exceptions, max_retries=None):
         except tuple(retriable_exceptions) as exc:
             retry += 1
             if type(exc) not in retriable_exceptions:
+                raise exc
+            # we want to retry 5xx errors only
+            elif type(exc) == googleapiclient.errors.HttpError and exc.resp.status < 500:
                 raise exc
             elif max_retries is not None and retry > max_retries:
                 debug("[Retryable errors] Retry limit reached")
