@@ -255,7 +255,7 @@ def main(arguments):
         run_main(parser, options, args)
     except googleapiclient.errors.HttpError as error:
         response = bytes.decode(error.content, encoding=lib.get_encoding()).strip()
-        raise RequestError("Server response: {0}".format(response))
+        raise RequestError(u"Server response: {0}".format(response))
 
 def run():
     sys.exit(lib.catch_exceptions(EXIT_CODES, main, sys.argv[1:]))
