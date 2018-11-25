@@ -74,6 +74,7 @@ $ youtube-upload \
   --client-secrets="my_client_secrets.json" \
   --credentials-file="my_credentials.json" \
   --playlist="My favorite music" \
+  --embeddable=True|False \
   anne_sophie_mutter.flv
 tx2Zb-145Yz
 ```

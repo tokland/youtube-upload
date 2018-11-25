@@ -123,6 +123,7 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
 
         },
         "status": {
+            "embeddable": options.embeddable,
             "privacyStatus": ("private" if options.publish_at else options.privacy),
             "publishAt": options.publish_at,
 
@@ -226,6 +227,8 @@ def main(arguments):
     parser.add_option('', '--title-template', dest='title_template',
         type="string", default="{title} [{n}/{total}]", metavar="string",
         help='Template for multiple videos (default: {title} [{n}/{total}])')
+    parser.add_option('', '--embeddable', dest='embeddable', default=True,
+        help='Video is embeddable')
 
     # Authentication
     parser.add_option('', '--client-secrets', dest='client_secrets',
