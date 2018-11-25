@@ -64,14 +64,14 @@ pxzZ-fYjeYs
 $ youtube-upload \
   --title="A.S. Mutter" 
   --description="A.S. Mutter plays Beethoven" \
-  --category=Music \
+  --category="Music" \
   --tags="mutter, beethoven" \
   --recording-date="2011-03-10T15:32:17.0Z" \
   --default-language="en" \
   --default-audio-language="en" \
-  --client-secrets=my_client_secrets.json \
-  --credentials-file=my_credentials.json \
-  --playlist "My favorite music" \
+  --client-secrets="my_client_secrets.json" \
+  --credentials-file="my_credentials.json" \
+  --playlist="My favorite music" \
   anne_sophie_mutter.flv
 tx2Zb-145Yz
 ```
