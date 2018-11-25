@@ -20,6 +20,7 @@ import sys
 import optparse
 import collections
 import webbrowser
+from io import open
 
 import googleapiclient.errors
 import oauth2client
