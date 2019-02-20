@@ -64,7 +64,7 @@ pxzZ-fYjeYs
 
 ```
 $ youtube-upload \
-  --title="A.S. Mutter" " \
+  --title="A.S. Mutter" \
   --description="A.S. Mutter plays Beethoven" \
   --category="Music" \
   --tags="mutter, beethoven" \
