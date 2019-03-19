@@ -1,3 +1,5 @@
+*THIS PROJECT NEEDS A MAINTAINER* If someone is willing to take over the project, let me know (pyarnau AT gmail.com).
+
 Introduction
 ============
 
