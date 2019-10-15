@@ -22,6 +22,12 @@ import collections
 import webbrowser
 from io import open
 
+# based from 'AttributeError: 'module' object has no attribute 'file'' when using oauth2client with Google Calendar
+# in https://stackoverflow.com/questions/37002110/attributeerror-module-object-has-no-attribute-file-when-using-oauth2clien
+from oauth2client import file 
+
+
+
 import googleapiclient.errors
 import oauth2client
 
