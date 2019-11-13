@@ -1,1 +1,1 @@
-python %~dp0youtube-upload %*
+@python %~dp0youtube-upload %*
