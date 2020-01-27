@@ -31,6 +31,8 @@ from . import categories
 from . import lib
 from . import playlists
 
+from oauth2client import file
+
 # http://code.google.com/p/python-progressbar (>= 2.3)
 try:
     import progressbar
