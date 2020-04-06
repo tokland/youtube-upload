@@ -16,6 +16,8 @@ Check if your operating system provides those packages (check also those [deb/rp
 Install
 =======
 
+## Installing with Virtualenv
+
 Using a virtualenv is optional but highly recommended if you will be installing youtube-upload's dependencies through pip.
 
 ```
