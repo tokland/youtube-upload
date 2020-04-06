@@ -25,10 +25,13 @@ $ git clone https://github.com/tokland/youtube-upload.git
 $ cd youtube-upload
 $ python -m venv .venv
 $ source .venv/bin/activate
-$ pip install -r requirements.txt
+$ pip install --upgrade -r requirements.txt
 $ deactivate
+$ # Make the script executable and symbolic link it to your user's bin directory
 $ chmod +x bin/youtube-upload && mkdir -p $HOME/.local/bin && ln -s $PWD/bin/youtube-upload $HOME/.local/bin/
 ```
+
+Be sure that `$HOME/.local/bin` is in your `PATH` environmental variable. Bash users can do so by adding the line `export PATH=$PATH:$HOME/.local/bin` in their `~/.bashrc` file. Zsh users can add the same line to `~/.zshrc`. Fish users can run the command `set -U fish_user_paths $HOME/.local/bin/ $fish_user_paths`.
 
 Setup
 =====
