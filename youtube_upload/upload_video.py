@@ -35,7 +35,6 @@ def upload(resource, path, body, chunksize=4*1024*1024,
         progress_callback=None, max_retries=10):
     """Upload video to Youtube. Return video ID."""
     body_keys = ",".join(body.keys())
-    print('uploading', path)
     media = apiclient.http.MediaFileUpload(path, chunksize=chunksize,
         resumable=True, mimetype="application/octet-stream")
     request = resource.videos().insert(part=body_keys, body=body, media_body=media)
