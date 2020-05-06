@@ -9,28 +9,27 @@ Dependencies
   * [Python 2.6/2.7/3.x](http://www.python.org).
   * Packages: [google-api-python-client](https://developers.google.com/api-client-library/python), [progressbar2](https://pypi.python.org/pypi/progressbar2) (optional).
 
-Check if your operating system provides those packages (check also those [deb/rpm/mac files](https://github.com/qiuwei/youtube-upload/releases)), otherwise install them with `pip`:
-
-```
-$ sudo pip install --upgrade google-api-python-client oauth2client progressbar2
-```
+Check if your operating system provides those packages (check also those [deb/rpm/mac files](https://github.com/qiuwei/youtube-upload/releases)), otherwise install them with `pip` in a virtualenv as explained below.
 
 Install
 =======
 
-```
-$ wget https://github.com/tokland/youtube-upload/archive/master.zip
-$ unzip master.zip
-$ cd youtube-upload-master
-$ sudo python setup.py install
-```
+## Installing with Virtualenv
 
-Or run directly from sources:
+Using a virtualenv is optional but highly recommended if you will be installing youtube-upload's dependencies through pip.
 
 ```
-$ cd youtube-upload-master
-$ PYTHONPATH=. python bin/youtube-upload ...
+$ git clone https://github.com/tokland/youtube-upload.git
+$ cd youtube-upload
+$ python -m venv .venv
+$ source .venv/bin/activate
+$ pip install --upgrade -r requirements.txt
+$ deactivate
+$ # Make the script executable and symbolic link it to your user's bin directory
+$ chmod +x bin/youtube-upload && mkdir -p $HOME/.local/bin && ln -s $PWD/bin/youtube-upload $HOME/.local/bin/
 ```
+
+Be sure that `$HOME/.local/bin` is in your `PATH` environmental variable. Bash users can do so by adding the line `export PATH=$PATH:$HOME/.local/bin` in their `~/.bashrc` file. Zsh users can add the same line to `~/.zshrc`. Fish users can run the command `set -U fish_user_paths $HOME/.local/bin/ $fish_user_paths`.
 
 Setup
 =====
@@ -45,15 +44,15 @@ The package used to include a default ```client_secrets.json``` file. It does no
 * Top menu: _Enabled API(s)_: Enable all Youtube APIs.
 * Side menu: _APIs & auth_ -> _Credentials_.
 * _Create a Client ID_: Add credentials -> OAuth 2.0 Client ID -> Other -> Name: youtube-upload -> Create -> OK
-* _Download JSON_: Under the section "OAuth 2.0 client IDs". Save the file to your local system. 
-* Use this JSON as your credentials file: `--client-secrets=CLIENT_SECRETS` or copy it to `~/client_secrets.json`.
+* _Download JSON_: Under the section "OAuth 2.0 client IDs". Save the file to your local system.
+* Use this JSON as your credentials file: `--client-secrets=CLIENT_SECRETS`. You may also copy it to `[YOUR YOUTUBE-UPLOAD INSTALL DIR]/client_secrets.json` or `~/.client_secrets.json`.
 
 *Note: ```client_secrets.json``` is a file you can download from the developer console, the credentials file is something auto generated after the first time the script is run and the google account sign in is followed, the file is stored at ```~/.youtube-upload-credentials.json```.*
 
 Examples
 ========
 
-* Upload a video (a valid `~/.client_secrets.json` should exist, check the Setup section):
+* Upload a video (a valid `[YOUR YOUTUBE-UPLOAD INSTALL DIR]/client_secrets.json` or `~/.client_secrets.json` should exist, check the Setup section):
 
 ```
 $ youtube-upload --title="A.S. Mutter" anne_sophie_mutter.flv
@@ -78,12 +77,12 @@ $ youtube-upload \
   anne_sophie_mutter.flv
 tx2Zb-145Yz
 ```
-*Other extra medata available :* 
+*Other extra medata available :*
  ```
- --privacy (public | unlisted | private)  
- --publish-at (YYYY-MM-DDThh:mm:ss.sZ)  
- --location (latitude=VAL,longitude=VAL[,altitude=VAL])  
- --thumbnail (string)  
+ --privacy (public | unlisted | private)
+ --publish-at (YYYY-MM-DDThh:mm:ss.sZ)
+ --location (latitude=VAL,longitude=VAL[,altitude=VAL])
+ --thumbnail (string)
  ```
 
 * Upload a video using a browser GUI to authenticate:
@@ -128,7 +127,7 @@ Using [shoogle](https://github.com/tokland/shoogle):
 
 ```
 $ shoogle execute --client-secret-file client_secret.json \
-                  youtube:v3.videoCategories.list <(echo '{"part": "id,snippet", "regionCode": "es"}')  | 
+                  youtube:v3.videoCategories.list <(echo '{"part": "id,snippet", "regionCode": "es"}')  |
     jq ".items[] | select(.snippet.assignable) | {id: .id, title: .snippet.title}"
 ```
 

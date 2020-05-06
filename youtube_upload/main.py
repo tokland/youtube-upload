@@ -24,6 +24,7 @@ from io import open
 
 import googleapiclient.errors
 import oauth2client
+from oauth2client import file
 
 from oauth2client import file
 
@@ -170,7 +171,17 @@ def get_youtube_handler(options):
     """Return the API Youtube object."""
     home = os.path.expanduser("~")
     default_credentials = os.path.join(home, ".youtube-upload-credentials.json")
-    client_secrets = options.client_secrets or os.path.join(home, ".client_secrets.json")
+    client_secrets = options.client_secrets
+    if not client_secrets:
+        possible_secrets_locations = [
+            os.path.join(os.path.dirname(__file__), '..', 'client_secrets.json'),
+            os.path.join(home, ".client_secrets.json")
+        ]
+        for f in possible_secrets_locations:
+            if os.path.exists(f):
+                client_secrets = f
+                break
+
     credentials = options.credentials_file or default_credentials
     debug("Using client secrets: {0}".format(client_secrets))
     debug("Using credentials file: {0}".format(credentials))
@@ -215,7 +226,7 @@ def run_main(parser, options, args, output=sys.stdout):
 
 def main(arguments):
     """Upload videos to Youtube."""
-    usage = """Usage: %prog [OPTIONS] VIDEO [VIDEO2 ...]
+    usage = """Usage: youtube-upload [OPTIONS] VIDEO [VIDEO2 ...]
 
     Upload videos to Youtube."""
     parser = optparse.OptionParser(usage)
