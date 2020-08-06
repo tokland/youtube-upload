@@ -42,9 +42,9 @@ The package used to include a default ```client_secrets.json``` file. It does no
 * Go to the Google [console](https://console.developers.google.com/).
 * _Create project_.
 * Side menu: _APIs & auth_ -> _APIs_
-* Top menu: _Enabled API(s)_: Enable all Youtube APIs.
+* Top menu: _Enabled API(s)_: Enable Youtube OAuth API.
 * Side menu: _APIs & auth_ -> _Credentials_.
-* _Create a Client ID_: Add credentials -> OAuth 2.0 Client ID -> Other -> Name: youtube-upload -> Create -> OK
+* _Create a Client ID_: Add credentials -> OAuth 2.0 Client ID -> Desktop Application -> Name: youtube-upload -> Create -> OK
 * _Download JSON_: Under the section "OAuth 2.0 client IDs". Save the file to your local system. 
 * Use this JSON as your credentials file: `--client-secrets=CLIENT_SECRETS` or copy it to `~/client_secrets.json`.
 
