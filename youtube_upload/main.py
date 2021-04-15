@@ -148,6 +148,7 @@ def upload_youtube_video(youtube, options, video_path, total_videos, index):
             "privacyStatus": ("private" if options.publish_at else options.privacy),
             "publishAt": options.publish_at,
             "license": options.license,
+            "selfDeclaredMadeForKids": options.self_declared_made_for_kids,
 
         },
         "recordingDetails": {
