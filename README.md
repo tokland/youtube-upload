@@ -67,6 +67,7 @@ $ youtube-upload \
   --title="A.S. Mutter" \
   --description="A.S. Mutter plays Beethoven" \
   --category="Music" \
+  --selfDeclaredMadeForKids False \
   --tags="mutter, beethoven" \
   --recording-date="2011-03-10T15:32:17.0Z" \
   --default-language="en" \
@@ -107,7 +108,8 @@ video.part3.avi
 Set environment variables *http_proxy* and *https_proxy*:
 
 ```
-$ export http_proxy=http://user:password@host:port
+# HolyTech 设置全局
+$ export http_proxy=http://127.0.0.1:8001
 $ export https_proxy=$http_proxy
 $ youtube-upload ....
 ```

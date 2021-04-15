@@ -6,7 +6,7 @@ except ImportError:
     import http.client as httplib
 
 import googleapiclient.errors
-import apiclient.http
+import apiclient
 import httplib2
 
 from . import lib
