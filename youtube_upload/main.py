@@ -236,7 +236,7 @@ def main(arguments):
                       default="public", help='Privacy status (public | unlisted | private)')
     parser.add_option('', '--publish-at', dest='publish_at', metavar="datetime",
                       default=None, help='Publish date (ISO 8601): YYYY-MM-DDThh:mm:ss.sZ')
-    parser.add_option('', '--self_declared_made_for_kids', dest='selfDeclaredMadeForKids', metavar="selfDeclaredMadeForKids",
+    parser.add_option('', '--self_declared_made_for_kids', dest='self_declared_made_for_kids', metavar="string",
                       default=False, help='selfDeclaredMadeForKids')
     parser.add_option('', '--license', dest='license', metavar="string",
                       choices=('youtube', 'creativeCommon'), default='youtube',
