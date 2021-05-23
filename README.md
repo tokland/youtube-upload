@@ -12,7 +12,7 @@ Dependencies
 Check if your operating system provides those packages (check also those [deb/rpm/mac files](https://github.com/qiuwei/youtube-upload/releases)), otherwise install them with `pip`:
 
 ```
-$ sudo pip install --upgrade google-api-python-client oauth2client progressbar2
+$ pip install --upgrade google-api-python-client oauth2client progressbar2
 ```
 
 Install
@@ -22,7 +22,7 @@ Install
 $ wget https://github.com/tokland/youtube-upload/archive/master.zip
 $ unzip master.zip
 $ cd youtube-upload-master
-$ sudo python setup.py install
+$ python setup.py install
 ```
 
 Or run directly from sources:
