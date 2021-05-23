@@ -1,6 +1,7 @@
 #!/usr/bin/python
 """Upload videos to Youtube."""
 from distutils.core import setup
+import setuptools
 
 setup_kwargs = {
     "name": "youtube-upload",
