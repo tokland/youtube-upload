@@ -213,8 +213,8 @@ def run_main(parser, options, args, output=sys.stdout):
         raise AuthenticationError("Cannot get youtube resource")
 
 
-def main(arguments):
-    """Upload videos to Youtube."""
+def build_parser():
+    """Build and return the CLI parser."""
     usage = """Usage: %prog [OPTIONS] VIDEO [VIDEO2 ...]
 
     Upload videos to Youtube."""
@@ -272,7 +272,13 @@ def main(arguments):
                       default=1024 * 1024 * 8, help='Update file chunksize')
     parser.add_option('', '--open-link', dest='open_link', action='store_true',
                       help='Opens a url in a web browser to display the uploaded video')
+    
+    return parser
 
+
+def main(arguments):
+    """Upload videos to Youtube."""
+    parser = build_parser()
     options, args = parser.parse_args(arguments)
 
     if options.description_file is not None and os.path.exists(options.description_file):
