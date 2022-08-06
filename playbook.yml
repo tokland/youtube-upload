@@ -1,0 +1,39 @@
+---
+- name: install youtube upload
+  hosts: localhost
+  tasks:
+          - name: install python3
+            ansible.builtin.apt:
+                    name: python3
+                    update_cache: yes
+            become: yes
+          - name: install python modules
+            ansible.builtin.pip:
+                    name:
+                            - google-api-python-client 
+                            - oauth2client 
+                            - progressbar2
+          - name: Create a temporary directory
+            ansible.builtin.file:
+                    path: /ansible-youtube-upload/
+                    state: directory
+                    mode: 0777
+            become: yes
+          - name: Download program
+            ansible.builtin.get_url:
+                    url: https://github.com/tokland/youtube-upload/archive/master.zip
+                    dest: /ansible-youtube-upload/
+          - name: extract archive
+            ansible.builtin.unarchive:
+                    src: /ansible-youtube-upload/youtube-upload-master.zip
+                    dest: /ansible-youtube-upload/
+          - name: execute install script
+            ansible.builtin.command:
+                    cmd: python3 setup.py install
+                    chdir: /ansible-youtube-upload/youtube-upload-master/
+            become: yes
+          - name: Supress the temporary directory
+            ansible.builtin.file:
+                    path: /ansible-youtube-upload/
+                    state: absent
+            become: yes
