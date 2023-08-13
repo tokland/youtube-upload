@@ -35,7 +35,7 @@ from . import playlists
 
 # http://code.google.com/p/python-progressbar (>= 2.3)
 try:
-    import progressbar2
+    import progressbar
 except ImportError:
     progressbar = None
 
